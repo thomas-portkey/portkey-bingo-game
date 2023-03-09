@@ -80,6 +80,7 @@ export default function Home() {
         },
       } as any;
       setIsLogoutShow(true);
+      console.log('caAddress===', walletRef.current.caInfo.caAddress);
     }
     init();
   }, []);
@@ -412,6 +413,7 @@ export default function Home() {
             setIsSignInShow(false);
             setIsLogoutShow(true);
             walletRef.current = wallet;
+            console.log('caAddress===', wallet.caInfo.caAddress);
             setWallet(wallet);
             initContract();
           }}
