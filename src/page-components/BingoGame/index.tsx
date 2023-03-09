@@ -256,7 +256,7 @@ export default function Home() {
 
       console.log('Play result: ', playResult);
       txIdRef.current = playResult.data.TransactionId || '';
-      await delay(4000);
+      await delay(30000);
       setStepStatus(StepStatus.BINGO);
     } catch (err) {
       console.log(err);
