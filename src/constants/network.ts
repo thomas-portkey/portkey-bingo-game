@@ -1,2 +1,2 @@
-export const bingoAddress = '2iNerrufZ7rQsj5Ea6Rpbi9G4GMNyTMNe9CBhBUocE9JHnUYJC';
-export const CHAIN_ID = 'tDVV';
+export const bingoAddress = '2sGZFRtqQ57F55Z2KvhmoozKrf7ik2htNVQawEAo3Vyvcx9Qwr';
+export const CHAIN_ID = 'tDVW';
