@@ -1,1 +1,1 @@
-export { default } from "../page-components/BingoGame";
+export { default } from '../page-components/BingoGame';
