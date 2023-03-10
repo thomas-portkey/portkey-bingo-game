@@ -6,7 +6,7 @@ import { did } from '@portkey/did-ui-react/src/utils/did';
 import { getContractBasic, ContractBasic } from '@portkey/contracts';
 import { DIDWalletInfo } from '@portkey/did-ui-react/src/components/types';
 import { ChainInfo } from '@portkey/services';
-import { useLocalStorage } from 'react-use';
+// import { useLocalStorage } from 'react-use';
 import { useDelay } from '../../hooks/common';
 import { bingoAddress, CHAIN_ID } from '../../constants/network';
 const { sha256 } = AElf.utils;
@@ -43,9 +43,9 @@ export default function Home() {
   const [balanceInputValue, setBalanceInputValue] = useState('');
   const [isSignInShow, setIsSignInShow] = useState<boolean>();
   const delay = useDelay();
-  const [wallet, setWallet] = useLocalStorage<DIDWalletInfo | null>('wallet');
+  // const [wallet, setWallet] = useLocalStorage<DIDWalletInfo | null>('wallet');
   const [stepStatus, setStepStatus] = useState<StepStatus>(StepStatus.INIT);
-  const [isLogoutShow, setIsLogoutShow] = useState(false);
+  // const [isLogoutShow, setIsLogoutShow] = useState(false);
 
   const setLoading = useCallback((value: boolean) => {
     loadingRef.current = value;
@@ -71,16 +71,17 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (wallet) {
-      walletRef.current = {
-        ...wallet,
-        walletInfo: {
-          ...wallet.walletInfo,
-          wallet: AElf.wallet.getWalletByPrivateKey(wallet.walletInfo.privateKey),
-        },
-      } as any;
-      setIsLogoutShow(true);
-    }
+    // if (wallet) {
+    //   walletRef.current = {
+    //     ...wallet,
+    //     walletInfo: {
+    //       ...wallet.walletInfo,
+    //       wallet: AElf.wallet.getWalletByPrivateKey(wallet.walletInfo.privateKey),
+    //     },
+    //   } as any;
+    //   setIsLogoutShow(true);
+    //   console.log('caAddress===', walletRef.current.caInfo.caAddress);
+    // }
     init();
   }, []);
 
@@ -255,7 +256,7 @@ export default function Home() {
 
       console.log('Play result: ', playResult);
       txIdRef.current = playResult.data.TransactionId || '';
-      await delay(4000);
+      await delay(30000);
       setStepStatus(StepStatus.BINGO);
     } catch (err) {
       console.log(err);
@@ -310,7 +311,7 @@ export default function Home() {
                 {isLoaderShow ? 'Loading' : StepTextMap[stepStatus]}
               </button>
               <br />
-              {isLogoutShow && (
+              {/* {isLogoutShow && (
                 <button
                   className={styles.register}
                   onClick={() => {
@@ -319,7 +320,7 @@ export default function Home() {
                   }}>
                   Logout
                 </button>
-              )}
+              )} */}
             </>
           )}
         </div>
@@ -410,9 +411,10 @@ export default function Home() {
           chainId={CHAIN_ID}
           onFinish={(wallet) => {
             setIsSignInShow(false);
-            setIsLogoutShow(true);
+            // setIsLogoutShow(true);
             walletRef.current = wallet;
-            setWallet(wallet);
+            console.log('caAddress===', wallet.caInfo.caAddress);
+            // setWallet(wallet);
             initContract();
           }}
           onError={(err) => {

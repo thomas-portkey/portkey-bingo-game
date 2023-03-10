@@ -1,0 +1,8 @@
+.verifier-account-wrapper .password-wrapper .adm-passcode-input-cell {
+  max-width: calc(16% - 13px);
+}
+.adm-passcode-input-cell-container,
+.adm-passcode-input-seperated,
+.ant-modal-body {
+  max-width: 100%;
+}

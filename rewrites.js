@@ -1,1 +1,1 @@
-module.exports = [{ source: '/api/:path*', destination: 'http://192.168.67.51:5577/api/:path*' }];
+module.exports = [{ source: '/api/:path*', destination: 'https://did-portkey-test.portkey.finance/api/:path*' }];
