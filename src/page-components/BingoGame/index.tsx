@@ -313,11 +313,11 @@ export default function Home() {
             <>
               {isWalletExist ? (
                 <button className={styles.register} onClick={onUnlockClick}>
-                  {isLoaderShow ? 'Loading' : 'unlock'}
+                  {isLoaderShow ? 'Loading' : 'Unlock'}
                 </button>
               ) : (
                 <button className={styles.register} onClick={() => setIsSignInShow(true)}>
-                  {isLoaderShow ? 'Loading' : 'login'}
+                  {isLoaderShow ? 'Loading' : 'Login'}
                 </button>
               )}
               <br />
