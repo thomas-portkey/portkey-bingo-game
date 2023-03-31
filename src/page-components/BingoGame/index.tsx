@@ -71,6 +71,7 @@ export default function Home() {
     return difference;
   }, [balanceValue, delay]);
 
+  // bingo game register
   const register = useCallback(async () => {
     const caContract = caContractRef.current;
     const wallet = walletRef.current;
@@ -129,6 +130,7 @@ export default function Home() {
         account: wallet.walletInfo.wallet,
         rpcUrl: chainInfo?.endPoint,
       });
+      // aelf  token
       const tokenContractAddress = await zeroC.callViewMethod(
         'GetContractAddressByName',
         sha256('AElf.ContractNames.Token'),
@@ -140,6 +142,7 @@ export default function Home() {
       });
       multiTokenContractRef.current = multiTokenContract;
 
+      //
       await delay();
       await register();
       await approve();
