@@ -132,7 +132,6 @@ const useBingo = () => {
 
     console.log('getBalance: result', result);
     const balance = result.data.balance / 10 ** 8;
-    debugger;
     const differenceValue = balance - Number(balanceValue);
     setBalanceValue(balance.toString());
     return differenceValue;
@@ -194,7 +193,6 @@ const useBingo = () => {
   const unLock = async () => {
     const wallet = await did.load(passwordValue, KEY_NAME);
     if (!wallet.didWallet.accountInfo.loginAccount) {
-      debugger;
       //   setIsErrorTipShow(true);
       return;
     }
