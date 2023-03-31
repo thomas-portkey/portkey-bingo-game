@@ -1,3 +1,3 @@
 export interface SideProps {
-    uaString?: string;
+  uaString?: string;
 }

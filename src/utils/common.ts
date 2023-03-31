@@ -8,6 +8,6 @@ export const copy = (content: string) => {
 };
 
 // check if the user is on mobile
-export const isMobile = (uaString: string) => { 
+export const isMobile = (uaString: string) => {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(uaString);
-}
+};

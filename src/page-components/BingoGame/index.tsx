@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import styles from './style.module.css';
 import AElf from 'aelf-sdk';
-import { ConfigProvider, SignIn } from '@portkey/did-ui-react';
-import { did } from '@portkey/did-ui-react/src/utils/did';
+// import { ConfigProvider, SignIn } from '@portkey/did-ui-react';
+import { ConfigProvider, SignIn, DIDWalletInfo, did, PortkeyLoading } from '@portkey/did-ui-react';
+
+// import { did } from '@portkey/did-ui-react/src/utils/did';
 import Image from 'next/image';
 
 import { getContractBasic, ContractBasic } from '@portkey/contracts';
-import { DIDWalletInfo } from '@portkey/did-ui-react/src/components/types';
+// import { DIDWalletInfo } from '@portkey/did-ui-react/src/components/types';
 import { ChainInfo } from '@portkey/services';
 import { useDelay } from '../../hooks/common';
 import { bingoAddress, CHAIN_ID } from '../../constants/network';
