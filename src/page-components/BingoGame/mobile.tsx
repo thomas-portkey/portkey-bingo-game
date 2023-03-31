@@ -111,7 +111,6 @@ const MBingoGame = () => {
       storageMethod: new Store(),
     });
     const chainsInfo = await did.services.getChainsInfo();
-    console.log('chainsInfo--', chainsInfo);
 
     const chainInfo = chainsInfo.find((chain) => chain.chainId === CHAIN_ID);
     if (!chainInfo) {
@@ -161,7 +160,6 @@ const MBingoGame = () => {
     const caContract = caContractRef.current;
     const multiTokenContract = multiTokenContractRef.current;
     if (!caContract || !wallet || !multiTokenContract) return;
-    console.log('wallet--', wallet);
 
     const approve = await caContract.callSendMethod('ManagerForwardCall', wallet.walletInfo.wallet.address, {
       caHash: wallet.caInfo.caHash,
@@ -212,7 +210,6 @@ const MBingoGame = () => {
   const unLock = async () => {
     const wallet = await did.load(passwordValue, KEY_NAME);
     if (!wallet.didWallet.accountInfo.loginAccount) {
-      debugger;
       //   setIsErrorTipShow(true);
       return;
     }
@@ -330,14 +327,13 @@ const MBingoGame = () => {
     setLoading(true);
 
     try {
-      const bingoResult = await caContract.callSendMethod('ManagerForwardCall', wallet.walletInfo.wallet.address, {
+      await caContract.callSendMethod('ManagerForwardCall', wallet.walletInfo.wallet.address, {
         caHash: wallet.caInfo.caHash,
         contractAddress: bingoAddress,
         methodName: 'Bingo',
         args: txId,
       });
 
-      console.log('Bingo: result', bingoResult);
       const difference = await getBalance();
       const isWin = difference > 0;
       const isBig = isWin ? smallOrBigRef.current : !smallOrBigRef.current;
@@ -345,7 +341,6 @@ const MBingoGame = () => {
       const result = getRandom(from, to);
       setResult(result);
 
-      console.log('difference', difference);
       setIsWin(isWin);
       setDifference(difference);
       setHasFinishBet(true);
@@ -598,7 +593,6 @@ const MBingoGame = () => {
       },
       address: caAddress,
     };
-    console.log(JSON.stringify(info));
 
     return (
       <PlayWrapper>
