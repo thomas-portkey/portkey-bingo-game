@@ -1,0 +1,17 @@
+.btn {
+  width: 58.66vw;
+  height: 16vw;
+  border: 0;
+  background-color: transparent;
+  transform-style: preserve-3d;
+  transition: all 75ms cubic-bezier(0, 0, 1, 1);
+}
+
+.blueBtn {
+  background-image: url('../../../public/btn_var2.png');
+  background-size: 100% 100%;
+}
+.oriangeBtn {
+  background-image: url('../../../public/btn_var1.png');
+  background-size: 100% 100%;
+}

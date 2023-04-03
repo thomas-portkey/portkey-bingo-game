@@ -1,17 +1,15 @@
-import React, { MouseEventHandler, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { ConfigProvider, SignIn, DIDWalletInfo, did, PortkeyLoading } from '@portkey/did-ui-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { DIDWalletInfo, did } from '@portkey/did-ui-react';
 import { ChainInfo } from '@portkey/services';
 import { getContractBasic, ContractBasic } from '@portkey/contracts';
 import AElf from 'aelf-sdk';
-import { CenterPopup, Toast, Input, DotLoading } from 'antd-mobile';
-import { QRCode } from 'react-qrcode-logo';
+import { Toast } from 'antd-mobile';
 
 import { useDelay } from './common';
-import { Store } from '../utils/store';
 
 import { bingoAddress, CHAIN_ID } from '../constants/network';
 
-enum StepStatus {
+export enum StepStatus {
   INIT,
   LOCK,
   LOGIN,
@@ -21,19 +19,19 @@ enum StepStatus {
   END,
 }
 
-enum SettingPage {
+export enum SettingPage {
   NULL,
   ACCOUNT,
   BALANCE,
   LOGOUT,
 }
 
-enum ButtonType {
+export enum ButtonType {
   BLUE,
   ORIANGE,
 }
 
-const KEY_NAME = 'BINGO_GAME';
+export const KEY_NAME = 'BINGO_GAME';
 const { sha256 } = AElf.utils;
 
 const BIG = [129, 256];
@@ -52,7 +50,7 @@ const useBingo = () => {
   const [balanceValue, setBalanceValue] = useState('0');
   const [balanceInputValue, setBalanceInputValue] = useState('0');
   const [difference, setDifference] = useState(0);
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState(Infinity);
   const [hasFinishBet, setHasFinishBet] = useState(false);
 
   const [isWalletExist, setIsWalletExist] = useState(false);
@@ -88,9 +86,6 @@ const useBingo = () => {
   };
 
   const init = async () => {
-    ConfigProvider.setGlobalConfig({
-      storageMethod: new Store(),
-    });
     const chainsInfo = await did.services.getChainsInfo();
     console.log('chainsInfo--', chainsInfo);
 
@@ -199,6 +194,7 @@ const useBingo = () => {
     walletRef.current = {
       caInfo: { ...wallet.didWallet.caInfo[CHAIN_ID] },
       pin: '',
+      chainId: CHAIN_ID,
       walletInfo: wallet.didWallet.managementAccount,
     };
     initContract();
@@ -252,6 +248,10 @@ const useBingo = () => {
 
     setLoading(false);
     setCaAddress(wallet.caInfo.caAddress);
+  };
+
+  const setWallet = (wallet: any) => {
+    walletRef.current = wallet;
   };
 
   const onPlay = async (smallOrBig: boolean) => {
@@ -355,19 +355,23 @@ const useBingo = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     init();
-    if (typeof window !== undefined && window.localStorage.getItem(KEY_NAME)) {
-      setIsWalletExist(true);
-      //   walletRef.current = JSON.parse(window.localStorage.getItem('testWallet') || '{}' as any);
-      //   setTimeout(() => {
-      //     unLock()
-      //   }, 2000);
-      //   setIsLogoutShow(true);
-      setStep(StepStatus.LOCK);
-    } else {
-      setEnablePlay(true);
-      setStep(StepStatus.LOGIN);
-    }
+    // if (typeof window !== undefined && window.localStorage.getItem(KEY_NAME)) {
+    //   setIsWalletExist(true);
+    //   //   walletRef.current = JSON.parse(window.localStorage.getItem('testWallet') || '{}' as any);
+    //   //   setTimeout(() => {
+    //   //     unLock()
+    //   //   }, 2000);
+    //   //   setIsLogoutShow(true);
+    //   setStep(StepStatus.LOCK);
+    // } else {
+    //   setEnablePlay(true);
+    //   setStep(StepStatus.LOGIN);
+    // }
+    setEnablePlay(true);
+    setStep(StepStatus.LOGIN);
+    setLoading(false);
   }, []);
 
   return {
@@ -378,9 +382,21 @@ const useBingo = () => {
     login,
     handleCopyToken,
     logOut,
+    lock,
+    setSettingPage,
+    setBalanceInputValue,
+    setCaAddress,
+    caAddress,
+    balanceValue,
+    setBalanceValue,
+    balanceInputValue,
     step,
+    initContract,
+    setLoading,
+    loading,
     settingPage,
     isLogin,
+    setIsLogin,
     showQrCode,
     isWin,
     enablePlay,
@@ -389,8 +405,10 @@ const useBingo = () => {
     result,
     hasFinishBet,
     isWalletExist,
-    loading,
     time,
+    setWallet,
+    accountAddress,
+    tokenContractAddress: tokenContractAddressRef.current,
   };
 };
 export default useBingo;
