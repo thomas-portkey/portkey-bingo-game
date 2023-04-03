@@ -196,6 +196,7 @@ export default function Home() {
       return;
     }
     walletRef.current = {
+      chainId: CHAIN_ID,
       caInfo: { ...wallet.didWallet.caInfo[CHAIN_ID] },
       pin: '',
       walletInfo: wallet.didWallet.managementAccount,
@@ -423,7 +424,7 @@ export default function Home() {
         <SignIn
           open={isSignInShow}
           sandboxId="portkey-ui-sandbox"
-          chainId={CHAIN_ID}
+          defaultChainId={CHAIN_ID}
           onFinish={(wallet) => {
             setIsSignInShow(false);
             walletRef.current = wallet;
