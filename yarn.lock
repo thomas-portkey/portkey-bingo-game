@@ -74,7 +74,7 @@
     tslib "^2.3.0"
     zen-observable-ts "^1.2.5"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.4.5":
+"@babel/runtime@^7.1.2", "@babel/runtime@^7.10.1", "@babel/runtime@^7.10.4", "@babel/runtime@^7.11.1", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.14.5", "@babel/runtime@^7.16.7", "@babel/runtime@^7.17.2", "@babel/runtime@^7.18.0", "@babel/runtime@^7.18.3", "@babel/runtime@^7.20.0", "@babel/runtime@^7.20.7", "@babel/runtime@^7.4.5":
   version "7.21.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
   integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
@@ -290,12 +290,12 @@
     "@portkey/utils" "^0.0.1-alpha.1.4"
     aelf-sdk "^3.2.44"
 
-"@portkey/did-ui-react@0.0.1-alpha.2.7":
-  version "0.0.1-alpha.2.7"
-  resolved "https://registry.yarnpkg.com/@portkey/did-ui-react/-/did-ui-react-0.0.1-alpha.2.7.tgz#a57dc936d350c8acecdde05076d9751479b6cb22"
-  integrity sha512-cXzdaRLzXKcAYBpSDT3BkyjdoQLaa0s7y6mE7EwN81tPQFnz1sNaxZwgLwFLaIvmJdB3rAmWA2UyCeDN1Ct/ww==
+"@portkey/did-ui-react@0.0.1-alpha.3.0":
+  version "0.0.1-alpha.3.0"
+  resolved "https://registry.yarnpkg.com/@portkey/did-ui-react/-/did-ui-react-0.0.1-alpha.3.0.tgz#8253f473b26a2e1dea1cbe72b28d2d88fa5d14ab"
+  integrity sha512-7UNi6nd7XBszTBE2Ga46+MHLXYTcBWH6H+X5gZCQduB08XtoCfWvgfRo2iYcqH9aRsIjs9WjIcbR+C+nNs2r+Q==
   dependencies:
-    "@portkey/did" "^0.0.1-alpha.2.3"
+    "@portkey/did" "^0.0.1-alpha.2.7"
     aelf-sdk "^3.2.40"
     antd "4.24.4"
     antd-mobile "5.26.0"
@@ -306,16 +306,16 @@
     react-use "^17.4.0"
     uuid "^8.3.2"
 
-"@portkey/did@^0.0.1-alpha.2.3":
-  version "0.0.1-alpha.2.3"
-  resolved "https://registry.yarnpkg.com/@portkey/did/-/did-0.0.1-alpha.2.3.tgz#1d0493a60f7da101beaab34120cf0f94bc069416"
-  integrity sha512-qHk9JYTxjZHKWHl6m8KnK+azdGv9HV5SaZ5RrAFu8kGzA86KZDAxYKflRPIv9CL6DqDIT5Mz6miVTLc7IFyi1g==
+"@portkey/did@^0.0.1-alpha.2.7":
+  version "0.0.1-alpha.2.7"
+  resolved "https://registry.yarnpkg.com/@portkey/did/-/did-0.0.1-alpha.2.7.tgz#3e2b6dd750f3a7d841dfe66a5bc88904bea26d2c"
+  integrity sha512-QlotIlrbcIN/LgF9QS/j8kbh6rxt93nv8De+ZCJBq6Uuoj7YGkJyfxVSwM4Pcqq2MWdXYr2k4/MlHEb26wIysQ==
   dependencies:
     "@portkey/accounts" "^0.0.1-alpha.1.4"
     "@portkey/contracts" "^0.0.1-alpha.1.6"
-    "@portkey/graphql" "^0.0.1-alpha.1.5"
+    "@portkey/graphql" "^0.0.1-alpha.1.6"
     "@portkey/request" "^0.0.1-alpha.1.5"
-    "@portkey/services" "^0.0.1-alpha.1.5"
+    "@portkey/services" "^0.0.1-alpha.1.7"
     "@portkey/types" "^0.0.1-alpha.1.5"
     "@portkey/utils" "^0.0.1-alpha.1.7"
     aelf-sdk "^3.2.44"
@@ -331,6 +331,16 @@
     graphql "^16.6.0"
     subscriptions-transport-ws "^0.11.0"
 
+"@portkey/graphql@^0.0.1-alpha.1.6":
+  version "0.0.1-alpha.1.6"
+  resolved "https://registry.yarnpkg.com/@portkey/graphql/-/graphql-0.0.1-alpha.1.6.tgz#b434170610687bb0fc82b5210ba042236ebf2c3f"
+  integrity sha512-SeggBzjDb6g60HWfhiEwJqydlTu23e7aT5fTR0JD9OLFNoebdtfo26oM842DPRL0si0NZzP2xrbhmrCbs2xt8g==
+  dependencies:
+    "@apollo/client" "^3.7.3"
+    "@portkey/types" "^0.0.1-alpha.1.4"
+    graphql "^16.6.0"
+    subscriptions-transport-ws "^0.11.0"
+
 "@portkey/request@^0.0.1-alpha.1.4", "@portkey/request@^0.0.1-alpha.1.5":
   version "0.0.1-alpha.1.5"
   resolved "https://registry.yarnpkg.com/@portkey/request/-/request-0.0.1-alpha.1.5.tgz#18fc82ee2917621316694469a46023cbe522f2a9"
@@ -339,10 +349,10 @@
     "@portkey/types" "^0.0.1-alpha.1.4"
     query-string "^6.14.1"
 
-"@portkey/services@^0.0.1-alpha.1.5":
-  version "0.0.1-alpha.1.5"
-  resolved "https://registry.yarnpkg.com/@portkey/services/-/services-0.0.1-alpha.1.5.tgz#f22d5794e7f700867acf11a9c12b71cdfda625df"
-  integrity sha512-/MyUpF46z06KNmcUuRWbY+xo92fXxfzIVLCYm9qZo3kcGRCw/tfpVycacRfpKWrbiRQBA3W/aJPjinmv4bPJBQ==
+"@portkey/services@^0.0.1-alpha.1.7":
+  version "0.0.1-alpha.1.7"
+  resolved "https://registry.yarnpkg.com/@portkey/services/-/services-0.0.1-alpha.1.7.tgz#7e430c30c9e8074a2c4430dc05f8e688bec8f4a6"
+  integrity sha512-S8W0jKHGi1fyfH6KeTZ4gINsqWRxg1vz2y3CR6+PKcvht9Soq+yMfPsYr1tL1yhjidcz9RJiU22jCaHuYcXp6w==
   dependencies:
     "@portkey/graphql" "^0.0.1-alpha.1.5"
     "@portkey/request" "^0.0.1-alpha.1.4"
@@ -1155,12 +1165,22 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
+copy-text-to-clipboard@^3.0.1:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/copy-text-to-clipboard/-/copy-text-to-clipboard-3.1.0.tgz#6bf40deef0a51ac6858efb0d76ded2c6d6a15059"
+  integrity sha512-PFM6BnjLnOON/lB3ta/Jg7Ywsv+l9kQGD4TWDCSlRBGmqnnTM5MrDkhAFgw+8HZt0wW6Q2BBE4cmy9sq+s9Qng==
+
 copy-to-clipboard@^3.2.0, copy-to-clipboard@^3.3.1:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.3.tgz#55ac43a1db8ae639a4bd99511c148cdd1b83a1b0"
   integrity sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==
   dependencies:
     toggle-selection "^1.0.6"
+
+core-js@^3.11.0:
+  version "3.29.1"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.29.1.tgz#40ff3b41588b091aaed19ca1aa5cb111803fa9a6"
+  integrity sha512-+jwgnhg6cQxKYIIjGtAHq2nwUOolo9eoFZ4sHfUH09BLXBgxnH4gA0zEd+t+BO2cNB8idaBtZFcFTRjQJRJmAw==
 
 create-hash@^1.1.0, create-hash@^1.1.2, create-hash@^1.2.0:
   version "1.2.0"
@@ -2527,6 +2547,11 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.3.tgz#574c8138ce1d2b5861f0b44579dbadd60c6615b2"
   integrity sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==
 
+mutation-observer@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/mutation-observer/-/mutation-observer-1.0.3.tgz#42e9222b101bca82e5ba9d5a7acf4a14c0f263d0"
+  integrity sha512-M/O/4rF2h776hV7qGMZUH3utZLO/jK7p8rnNgGkjKUw8zCGjRQPxB8z6+5l8+VjRUQ3dNYu4vjqXYLr+U8ZVNA==
+
 nan@^2.14.0:
   version "2.17.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.17.0.tgz#c0150a2368a182f033e9aa5195ec76ea41a199cb"
@@ -3824,6 +3849,16 @@ uuid@^8.3.2:
   version "8.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
+
+vconsole@^3.15.0:
+  version "3.15.0"
+  resolved "https://registry.yarnpkg.com/vconsole/-/vconsole-3.15.0.tgz#2383482b0a4106204090046ec128071284e04a90"
+  integrity sha512-8hq7wabPcRucSWQyN7/1tthMawP9JPvM95zgtMHpPknMMMCKj+abpoK7P7oKK4B0qw58C24Mdvo9+raUdpHyVQ==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+    copy-text-to-clipboard "^3.0.1"
+    core-js "^3.11.0"
+    mutation-observer "^1.0.3"
 
 void-elements@3.1.0:
   version "3.1.0"
