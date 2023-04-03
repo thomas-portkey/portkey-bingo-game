@@ -54,9 +54,16 @@ ConfigProvider.setGlobalConfig({
 
 const BingoGame = (props: SideProps) => {
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_APP_ENV);
     if (process.env.NEXT_PUBLIC_APP_ENV === 'development') {
-      new window.VConsole();
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://unpkg.com/vconsole@latest/dist/vconsole.min.js';
+      document.body.appendChild(script);
+      script.onload = () => {
+        setTimeout(() => {
+          new window.VConsole();
+        }, 0);
+      };
     }
   }, []);
 
