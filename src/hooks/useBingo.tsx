@@ -43,7 +43,7 @@ const useBingo = () => {
   const [isWin, setIsWin] = useState(false);
   const [enablePlay, setEnablePlay] = useState(false);
 
-  const [passwordValue, setPasswordValue] = useState('ls123456');
+  const [passwordValue, setPasswordValue] = useState('');
 
   const [balanceValue, setBalanceValue] = useState('0');
   const [difference, setDifference] = useState(0);
