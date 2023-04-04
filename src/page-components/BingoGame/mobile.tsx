@@ -1,6 +1,6 @@
-import React, { MouseEventHandler, useRef, useState } from 'react';
+import React, { MouseEventHandler, useRef, useState, useEffect } from 'react';
 import { SignIn, did, PortkeyLoading } from '@portkey/did-ui-react';
-import { CenterPopup } from 'antd-mobile';
+import { CenterPopup, Toast } from 'antd-mobile';
 import Input from './components/input';
 import { QRCode } from 'react-qrcode-logo';
 
@@ -8,6 +8,8 @@ import { shrinkSendQrData } from '../../utils/common';
 import useBingo, { SettingPage, StepStatus, KEY_NAME } from '../../hooks/useBingo';
 
 import { CHAIN_ID } from '../../constants/network';
+
+import Clipboard from 'clipboard';
 
 import styles from './style_mobile.module.css';
 
@@ -38,14 +40,17 @@ const Button = (props: {
 
 const MBingoGame = () => {
   const [inputValue, setInputValue] = useState('0');
+  // console.log('inputValue', inputValue);
+
   const copyBtnRef = useRef(null);
+  const copyBoard = useRef(null);
+
   const {
     onBet,
     onBingo,
     onPlay,
     unLock,
     login,
-    handleCopyToken,
     logOut,
     lock,
     step,
@@ -56,7 +61,6 @@ const MBingoGame = () => {
     isLogin,
     showQrCode,
     isWin,
-    enablePlay,
     setShowQrCode,
     difference,
     result,
@@ -73,6 +77,27 @@ const MBingoGame = () => {
     tokenContractAddress,
     accountAddress,
   } = useBingo();
+
+  useEffect(() => {
+    if (copyBtnRef.current && !copyBoard.current) {
+      const clipboard = new Clipboard(copyBtnRef.current, {
+        text: () => {
+          return accountAddress;
+        },
+      });
+      clipboard.on('success', () => {
+        Toast.show({
+          content: 'Copied!',
+        });
+      });
+      clipboard.on('error', () => {
+        Toast.show({
+          content: 'Copy failed!',
+        });
+      });
+      copyBoard.current = clipboard;
+    }
+  });
 
   /**
    *  render function
@@ -139,7 +164,7 @@ const MBingoGame = () => {
           <Input
             key="amount-input"
             placeholder="0"
-            value={inputValue}
+            value={balanceInputValue}
             onChange={(val) => {
               setBalanceInputValue(val);
             }}
@@ -151,7 +176,6 @@ const MBingoGame = () => {
           <button
             onClick={() => {
               setBalanceInputValue('1');
-              setInputValue('1');
             }}
             className={[styles.playContent__btn, styles.button].join(' ')}>
             MIN
@@ -161,7 +185,6 @@ const MBingoGame = () => {
               try {
                 const balance = Math.min(Number(balanceValue), 100);
                 setBalanceInputValue(`${Math.floor(balance)}`);
-                setInputValue(`${Math.floor(balance)}`);
               } catch (error) {
                 console.log('error', error);
               }
@@ -301,9 +324,6 @@ const MBingoGame = () => {
                 <button
                   ref={(ref) => {
                     copyBtnRef.current = ref;
-                  }}
-                  onClick={() => {
-                    handleCopyToken(copyBtnRef.current);
                   }}
                   className={[styles.settingBtn__copy, styles.button].join(' ')}></button>
                 <button

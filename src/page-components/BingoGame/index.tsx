@@ -144,7 +144,6 @@ export default function Home() {
       });
       multiTokenContractRef.current = multiTokenContract;
 
-      //
       await delay();
       await register();
       await approve();

@@ -70,22 +70,6 @@ const useBingo = () => {
    *  logic function
    */
   const delay = useDelay();
-  const handleCopyToken = (ele: any) => {
-    const clipboard = new Clipboard(ele, {
-      text: () => {
-        return accountAddress;
-      },
-    });
-    clipboard.on('success', () => {
-      Toast.show({
-        content: 'Copied!',
-      });
-      clipboard.destroy();
-    });
-    clipboard.on('error', () => {
-      clipboard.destroy();
-    });
-  };
 
   const init = async () => {
     const chainsInfo = await did.services.getChainsInfo();
@@ -220,6 +204,7 @@ const useBingo = () => {
         account: wallet.walletInfo.wallet,
         rpcUrl: chainInfo?.endPoint,
       });
+
       const chainStatus = await aelf.chain.getChainStatus();
       const zeroC = await getContractBasic({
         contractAddress: chainStatus.GenesisContractAddress,
@@ -267,13 +252,14 @@ const useBingo = () => {
     const wallet = walletRef.current;
     if (!caContract || !wallet) return;
 
-    const reg = /^[1-9]\d*$/;
-    const value = parseInt(balanceInputValueRef.current, 10);
+    // const reg = /^[1-9]\d*$/;
+    // const value = parseInt(balanceInputValueRef.current, 10);
+    const value = Number(balanceInputValueRef.current);
 
     if (value < 1) {
       return Toast.show('A minimum bet of 1 ELFs!');
     }
-    if (!reg.test(value.toString())) {
+    if (value <= 0) {
       Toast.show('Please enter a positive integer greater than 0!');
       return;
     }
@@ -286,6 +272,7 @@ const useBingo = () => {
       Toast.show('Please enter a number less than 100 ELFs!');
       return;
     }
+
     setLoading(true);
 
     try {
@@ -341,10 +328,11 @@ const useBingo = () => {
         const { randomNumber, award } = rewardResult.data?.bouts?.pop();
         console.log('Bingo: result', bingoResult);
 
-        const isWin = Number(randomNumber) > 0;
+        const isWin = Number(award) > 0;
         setIsWin(isWin);
         setResult(randomNumber);
         setDifference(Number(award) / 10 ** 8);
+        getBalance();
       } catch (error) {
         console.error(error);
         Toast.show({
@@ -352,7 +340,6 @@ const useBingo = () => {
         });
       }
 
-      await getBalance();
       setHasFinishBet(true);
       setLoading(false);
     } catch (err) {
@@ -362,6 +349,7 @@ const useBingo = () => {
 
   const onBet = () => {
     setHasFinishBet(false);
+    setResult(Infinity);
     setStep(StepStatus.PLAY);
   };
 
@@ -392,7 +380,6 @@ const useBingo = () => {
     setLoading(true);
     init();
     // if (typeof window !== undefined && window.localStorage.getItem(KEY_NAME)) {
-    //   setIsWalletExist(true);
     //   //   walletRef.current = JSON.parse(window.localStorage.getItem('testWallet') || '{}' as any);
     //   setTimeout(() => {
     //     unLock();
@@ -414,7 +401,6 @@ const useBingo = () => {
     onPlay,
     unLock,
     login,
-    handleCopyToken,
     logOut,
     lock,
     setSettingPage,
