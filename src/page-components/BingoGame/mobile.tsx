@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useRef, useState, useEffect } from 'react';
 import { SignIn, did, PortkeyLoading } from '@portkey/did-ui-react';
-import { CenterPopup, Toast } from 'antd-mobile';
-import Input from './components/input';
+import { CenterPopup, Toast, Input } from 'antd-mobile';
+// import Input from './components/input';
 import { QRCode } from 'react-qrcode-logo';
 
 import { shrinkSendQrData } from '../../utils/common';
@@ -40,7 +40,6 @@ const Button = (props: {
 
 const MBingoGame = () => {
   const [inputValue, setInputValue] = useState('0');
-  // console.log('inputValue', inputValue);
 
   const copyBtnRef = useRef(null);
   const copyBoard = useRef(null);
@@ -126,6 +125,13 @@ const MBingoGame = () => {
     );
   };
 
+  useEffect(() => {
+    if (settingPage === SettingPage.ACCOUNT) {
+      copyBtnRef.current = null;
+      copyBoard.current = null;
+    }
+  }, [settingPage]);
+
   const PlayWrapper = (props: any) => {
     const { children, show = true } = props;
     return (
@@ -156,68 +162,98 @@ const MBingoGame = () => {
 
   const renderPlay = () => {
     return (
-      <PlayWrapper key="render-play">
-        <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
-          ?
+      <CenterPopup visible className={styles.centerPopup}>
+        <div className={styles.playWrapper}>
+          <div className={styles.playContent}>
+            <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
+              ?
+            </div>
+            <div className={styles.playContent__input}>
+              <Input
+                key="amount-input"
+                placeholder="0"
+                type="number"
+                value={inputValue}
+                onBlur={() => {
+                  const fixedString = Number(inputValue).toFixed(2);
+                  setInputValue(fixedString);
+                  setBalanceInputValue(fixedString);
+                }}
+                onChange={(val) => {
+                  setBalanceInputValue(val);
+                  setInputValue(val);
+                }}
+              />
+              <span style={{ paddingRight: '8px' }}>BET</span>
+              <span>ELF</span>
+            </div>
+            <div className={styles.playContent__btnGroups}>
+              <button
+                onClick={() => {
+                  setBalanceInputValue('1');
+                  setInputValue('1');
+                }}
+                className={[styles.playContent__btn, styles.button].join(' ')}>
+                MIN
+              </button>
+              <button
+                onClick={() => {
+                  try {
+                    const balance = Math.min(Number(balanceValue), 100);
+                    setBalanceInputValue(`${Math.floor(balance)}`);
+                    setInputValue(`${Math.floor(balance)}`);
+                  } catch (error) {
+                    console.log('error', error);
+                  }
+                }}
+                className={[styles.playContent__btn, styles.button].join(' ')}>
+                MAX
+              </button>
+            </div>
+            <div className={styles.playContent__betBtnGroups}>
+              <Button
+                className={styles.playContent__betBtn}
+                type={ButtonType.ORIANGE}
+                onClick={async () => {
+                  onPlay(true);
+                }}>
+                <span className={styles.playContent__betBtn_p}>
+                  <p className={styles.artWord}>BIG</p>
+                  <p>(129 - 256)</p>
+                </span>
+              </Button>
+              <Button
+                className={styles.playContent__betBtn}
+                type={ButtonType.BLUE}
+                onClick={() => {
+                  onPlay(false);
+                }}>
+                <span className={styles.playContent__betBtn_p}>
+                  <p className={styles.artWord}>SMALL</p>
+                  <p>(0 - 128)</p>
+                </span>
+              </Button>
+            </div>
+          </div>
         </div>
-        <div className={styles.playContent__input}>
-          <Input
-            key="amount-input"
-            placeholder="0"
-            value={balanceInputValue}
-            onChange={(val) => {
-              setBalanceInputValue(val);
-            }}
-          />
-          <span style={{ paddingRight: '8px' }}>BET</span>
-          <span>ELF</span>
-        </div>
-        <div className={styles.playContent__btnGroups}>
+        <div className={styles.settingBtnGroups}>
           <button
             onClick={() => {
-              setBalanceInputValue('1');
+              setSettingPage(SettingPage.ACCOUNT);
             }}
-            className={[styles.playContent__btn, styles.button].join(' ')}>
-            MIN
-          </button>
+            className={[styles.settingBtn, styles.button].join(' ')}></button>
           <button
             onClick={() => {
-              try {
-                const balance = Math.min(Number(balanceValue), 100);
-                setBalanceInputValue(`${Math.floor(balance)}`);
-              } catch (error) {
-                console.log('error', error);
-              }
+              setSettingPage(SettingPage.BALANCE);
             }}
-            className={[styles.playContent__btn, styles.button].join(' ')}>
-            MAX
-          </button>
-        </div>
-        <div className={styles.playContent__betBtnGroups}>
-          <Button
-            className={styles.playContent__betBtn}
-            type={ButtonType.ORIANGE}
-            onClick={async () => {
-              onPlay(true);
-            }}>
-            <span className={styles.playContent__betBtn_p}>
-              <p className={styles.artWord}>BIG</p>
-              <p>(129 - 256)</p>
-            </span>
-          </Button>
-          <Button
-            className={styles.playContent__betBtn}
-            type={ButtonType.BLUE}
+            className={[styles.settingBtn, styles.button].join(' ')}></button>
+          <button
             onClick={() => {
-              onPlay(false);
-            }}>
-            <span className={styles.playContent__betBtn_p}>
-              <p className={styles.artWord}>SMALL</p>
-              <p>(0 - 128)</p>
-            </span>
-          </Button>
+              setSettingPage(SettingPage.LOGOUT);
+            }}
+            className={[styles.settingBtn, styles.button].join(' ')}></button>
         </div>
-      </PlayWrapper>
+      </CenterPopup>
     );
   };
 
