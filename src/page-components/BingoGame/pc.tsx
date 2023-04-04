@@ -34,7 +34,6 @@ const PCBingoGame = () => {
     difference,
     result,
     hasFinishBet,
-    isWalletExist,
     setSettingPage,
     caAddress,
     setCaAddress,

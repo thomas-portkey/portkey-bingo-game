@@ -1,6 +1,7 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useRef, useState } from 'react';
 import { SignIn, did, PortkeyLoading } from '@portkey/did-ui-react';
-import { CenterPopup, Toast, Input } from 'antd-mobile';
+import { CenterPopup } from 'antd-mobile';
+import Input from './components/input';
 import { QRCode } from 'react-qrcode-logo';
 
 import { shrinkSendQrData } from '../../utils/common';
@@ -36,6 +37,8 @@ const Button = (props: {
 };
 
 const MBingoGame = () => {
+  const [inputValue, setInputValue] = useState('0');
+  const copyBtnRef = useRef(null);
   const {
     onBet,
     onBingo,
@@ -58,7 +61,6 @@ const MBingoGame = () => {
     difference,
     result,
     hasFinishBet,
-    isWalletExist,
     setSettingPage,
     caAddress,
     setCaAddress,
@@ -129,24 +131,17 @@ const MBingoGame = () => {
 
   const renderPlay = () => {
     return (
-      <PlayWrapper>
+      <PlayWrapper key="render-play">
         <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
           ?
         </div>
         <div className={styles.playContent__input}>
           <Input
+            key="amount-input"
             placeholder="0"
-            value={balanceInputValue}
-            style={{ fontSize: '24px' }}
-            type="number"
-            maxLength={2}
-            max={100}
-            min={0}
-            autoFocus
+            value={inputValue}
             onChange={(val) => {
-              if (!val || /^\d+(\.\d{1,2})?$/.test(val)) {
-                setBalanceInputValue(val);
-              }
+              setBalanceInputValue(val);
             }}
           />
           <span style={{ paddingRight: '8px' }}>BET</span>
@@ -156,6 +151,7 @@ const MBingoGame = () => {
           <button
             onClick={() => {
               setBalanceInputValue('1');
+              setInputValue('1');
             }}
             className={[styles.playContent__btn, styles.button].join(' ')}>
             MIN
@@ -165,6 +161,7 @@ const MBingoGame = () => {
               try {
                 const balance = Math.min(Number(balanceValue), 100);
                 setBalanceInputValue(`${Math.floor(balance)}`);
+                setInputValue(`${Math.floor(balance)}`);
               } catch (error) {
                 console.log('error', error);
               }
@@ -281,7 +278,6 @@ const MBingoGame = () => {
       },
       address: caAddress,
     });
-    console.log(info);
 
     return (
       <PlayWrapper>
@@ -303,7 +299,12 @@ const MBingoGame = () => {
               )}
               <div>
                 <button
-                  onClick={handleCopyToken}
+                  ref={(ref) => {
+                    copyBtnRef.current = ref;
+                  }}
+                  onClick={() => {
+                    handleCopyToken(copyBtnRef.current);
+                  }}
                   className={[styles.settingBtn__copy, styles.button].join(' ')}></button>
                 <button
                   onClick={() => {
@@ -354,9 +355,9 @@ const MBingoGame = () => {
 
     switch (step) {
       case StepStatus.INIT:
+      case StepStatus.LOCK:
       case StepStatus.LOGIN:
         return renderDefault();
-      case StepStatus.LOCK:
       case StepStatus.PLAY:
         return renderPlay();
       case StepStatus.CUTDOWN:
