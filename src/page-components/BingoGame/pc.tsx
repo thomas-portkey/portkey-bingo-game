@@ -18,7 +18,6 @@ const PCBingoGame = () => {
     onPlay,
     unLock,
     login,
-    handleCopyToken,
     logOut,
     lock,
     step,
@@ -29,7 +28,6 @@ const PCBingoGame = () => {
     isLogin,
     showQrCode,
     isWin,
-    enablePlay,
     setShowQrCode,
     difference,
     result,
@@ -271,9 +269,7 @@ const PCBingoGame = () => {
                 />
               )}
               <div>
-                <button
-                  onClick={handleCopyToken}
-                  className={[styles.settingBtn__copy, styles.button].join(' ')}></button>
+                <button className={[styles.settingBtn__copy, styles.button].join(' ')}></button>
                 <button
                   onClick={() => {
                     setShowQrCode(true);

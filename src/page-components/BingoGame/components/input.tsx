@@ -1,11 +1,13 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, forwardRef } from 'react';
 import { Input } from 'antd-mobile';
 
-const InputComponent = (props: { value?: string; placeholder: string; onChange: (value: string) => void }) => {
-  const [inputValue, setInputValue] = useState<string>(props.value || '0');
+const InputComponent = (props: { value?: string; placeholder: string; onChange: (value: string) => void }, ref) => {
+  const [inputValue, setInputValue] = useState<string>(props.value);
   useEffect(() => {
     console.log(props.value);
-    setInputValue(props.value);
+    if (inputValue !== props.value) {
+      setInputValue(props.value);
+    }
   }, [props.value]);
 
   return useMemo(() => {
@@ -18,9 +20,14 @@ const InputComponent = (props: { value?: string; placeholder: string; onChange: 
           setInputValue(str);
           props.onChange(str);
         }}
+        onBlur={() => {
+          const fixedString = Number(inputValue).toFixed(2);
+          setInputValue(fixedString);
+          props.onChange(fixedString);
+        }}
       />
     );
   }, [inputValue]);
 };
 
-export default InputComponent;
+export default forwardRef(InputComponent);
