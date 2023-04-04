@@ -9,6 +9,6 @@ COPY . ${web}
 RUN yarn \
     && yarn build 
 
-ENTRYPOINT yarn start
+ENTRYPOINT yarn dev
 
 EXPOSE 3000
