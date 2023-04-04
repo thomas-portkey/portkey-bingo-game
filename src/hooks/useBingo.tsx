@@ -390,8 +390,10 @@ const useBingo = () => {
     //   setEnablePlay(true);
     //   setStep(StepStatus.LOGIN);
     // }
+
     setEnablePlay(true);
     setStep(StepStatus.LOGIN);
+
     setLoading(false);
   }, []);
 
