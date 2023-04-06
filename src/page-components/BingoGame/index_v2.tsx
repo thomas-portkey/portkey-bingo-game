@@ -27,7 +27,7 @@ export const Button = (props: {
     <button
       disabled={!enable}
       onClick={onClick}
-      className={[className, styles.btn, type === ButtonType.BLUE ? styles.blueBtn : styles.oriangeBtn].join(' ')}>
+      className={[type === ButtonType.BLUE ? styles.blueBtn : styles.oriangeBtn, styles.btn, className].join(' ')}>
       {children}
     </button>
   );
