@@ -121,6 +121,135 @@
   background-color: transparent;
 }
 
+.settingHeader {
+  padding: 52px 161px 0 161px;
+  display: flex;
+  align-items: center;
+}
+
+.setting__balance {
+  display: flex;
+  align-items: center;
+  padding-left: 123px;
+
+  width: 495px;
+  height: 100px;
+  background-image: url('../../../public/balance_pc.png');
+  background-size: 100% 100%;
+}
+
+.setting__balance__content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-right: 30px;
+}
+
+.setting__balance__content div:first-child {
+  color: #0a0a0a;
+  font-weight: 900;
+  font-size: 32px;
+  height: 40px;
+}
+
+.setting__balance__content div:nth-child(2) {
+  color: #000000;
+  font-weight: 400;
+  font-size: 24px;
+  margin-left: 24px;
+}
+
+.setting__balance__content button {
+  margin-left: auto;
+  border: 0;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background-image: url('../../../public/reload.png');
+  background-size: 100% 100%;
+}
+
+.setting__account {
+  display: flex;
+  align-items: center;
+  padding-left: 123px;
+  margin-left: 22px;
+
+  width: 821px;
+  height: 100px;
+  background-image: url('../../../public/account_pc.png');
+  background-size: 100% 100%;
+}
+
+.setting__account__content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding-right: 30px;
+}
+
+.setting__account__content div:first-child {
+  color: #0a0a0a;
+  font-weight: 900;
+  font-size: 32px;
+  height: 40px;
+}
+
+.setting__account__content div:nth-child(2) {
+  color: #000000;
+  font-weight: 400;
+  font-size: 24px;
+  margin-left: 24px;
+}
+
+.setting__account__content__copy {
+  margin-left: auto;
+  border: 0;
+  background-color: transparent;
+  width: 54px;
+  height: 54px;
+  cursor: pointer;
+  background-image: url('../../../public/copy.svg');
+  background-size: 100% 100%;
+}
+
+.setting__account__content__qrcode {
+  border: 0;
+  background-color: transparent;
+  width: 54px;
+  height: 54px;
+  cursor: pointer;
+  background-image: url('../../../public/qrcode.png');
+  background-size: 100% 100%;
+}
+
+.setting__logout {
+  cursor: pointer;
+  width: 154px;
+  height: 60px;
+  background: #ffd812;
+  border: 3.5px solid #000000;
+  border-radius: 43.5px;
+  font-weight: 900;
+  font-size: 32px;
+  margin-left: auto;
+}
+
+.contentWrapper {
+  padding: 24px 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content__bg {
+  width: 1322px;
+  height: 805px;
+  background-image: url('../../../public/frame_pc.png');
+  background-size: 100% 100%;
+}
+
 .playContent {
   margin: 44.1vw 13.2vw 8.5vw 13.2vw;
 }
