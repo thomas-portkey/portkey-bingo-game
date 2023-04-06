@@ -39,7 +39,7 @@ const Button = (props: {
 };
 
 const MBingoGame = () => {
-  const [inputValue, setInputValue] = useState('0');
+  const [inputValue, setInputValue] = useState('1');
 
   const copyBtnRef = useRef(null);
   const copyBoard = useRef(null);
@@ -55,6 +55,7 @@ const MBingoGame = () => {
     step,
     settingPage,
     balanceValue,
+    getBalance,
     balanceInputValue,
     setBalanceInputValue,
     isLogin,
@@ -106,20 +107,28 @@ const MBingoGame = () => {
       <div className={styles.defaultWrapper}>
         <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
         {step === StepStatus.LOCK && (
-          <Button
-            className={styles.defaultBtn}
-            type={ButtonType.BLUE}
-            onClick={() => {
-              unLock();
-            }}>
-            <p className={styles.artWord}>UNLOCK</p>
-          </Button>
+          <>
+            <Button
+              className={styles.defaultBtn}
+              type={ButtonType.BLUE}
+              onClick={() => {
+                unLock();
+              }}>
+              <p className={styles.artWord}>UNLOCK</p>
+            </Button>
+          </>
         )}
 
         {step === StepStatus.LOGIN && (
-          <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
-            <p className={styles.artWord}>PLAY NOW</p>
-          </Button>
+          <>
+            <Button className={styles.defaultBtn} type={ButtonType.ORIANGE} onClick={login}>
+              <p className={styles.artWord}>PLAY NOW</p>
+            </Button>
+            <div className={styles.initTip}>
+              <img src={require('../../../public/warn.svg').default.src} />
+              <span>This is a demo on the Testnet.</span>
+            </div>
+          </>
         )}
       </div>
     );
@@ -147,6 +156,7 @@ const MBingoGame = () => {
             className={[styles.settingBtn, styles.button].join(' ')}></button>
           <button
             onClick={() => {
+              getBalance();
               setSettingPage(SettingPage.BALANCE);
             }}
             className={[styles.settingBtn, styles.button].join(' ')}></button>
@@ -208,6 +218,7 @@ const MBingoGame = () => {
                 }}
                 className={[styles.playContent__btn, styles.button].join(' ')}>
                 MAX
+                <span style={{ fontSize: '10px', paddingLeft: '4px' }}>(100)</span>
               </button>
             </div>
             <div className={styles.playContent__betBtnGroups}>
@@ -244,6 +255,7 @@ const MBingoGame = () => {
             className={[styles.settingBtn, styles.button].join(' ')}></button>
           <button
             onClick={() => {
+              getBalance();
               setSettingPage(SettingPage.BALANCE);
             }}
             className={[styles.settingBtn, styles.button].join(' ')}></button>
@@ -264,6 +276,7 @@ const MBingoGame = () => {
         <div className={styles.cutDown}>
           <p>{time} s</p>
         </div>
+        <span className={styles.cutDown__tip}>Getting on-chain data to generate random numbers...</span>
       </div>
     );
   };
@@ -291,7 +304,7 @@ const MBingoGame = () => {
                 {isWin ? (
                   <img src={require('../../../public/congratulation.png').default.src} />
                 ) : (
-                  <img src={require('../../../public/pity.png').default.src} />
+                  <img src={require('../../../public/lose.png').default.src} />
                 )}
                 <div className={styles.bingoText}>
                   <span>{text}</span>
@@ -374,6 +387,13 @@ const MBingoGame = () => {
             <div className={styles.settingContent__balance}>
               <h1>Balance</h1>
               <div className={styles.settingContent__balance__text}>{balanceValue} ELF</div>
+              <button
+                className={styles.settingContent__balance__reload}
+                onClick={async () => {
+                  setLoading(true);
+                  await getBalance();
+                  setLoading(false);
+                }}></button>
             </div>
           )}
           {settingPage === SettingPage.LOGOUT && (

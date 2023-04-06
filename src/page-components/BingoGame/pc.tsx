@@ -49,7 +49,10 @@ const PCBingoGame = () => {
     return (
       <div className={styles.defaultWrapper}>
         <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
-        {step === StepStatus.LOCK && (
+        <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
+          <p className={styles.artWord}>PLAY NOW</p>
+        </Button>
+        {/* {step === StepStatus.LOCK && (
           <Button
             className={styles.defaultBtn}
             type={ButtonType.BLUE}
@@ -64,7 +67,7 @@ const PCBingoGame = () => {
           <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
             <p className={styles.artWord}>PLAY NOW</p>
           </Button>
-        )}
+        )} */}
       </div>
     );
   };
@@ -201,7 +204,7 @@ const PCBingoGame = () => {
                 {isWin ? (
                   <img src={require('../../../public/congratulation.png').default.src} />
                 ) : (
-                  <img src={require('../../../public/pity.png').default.src} />
+                  <img src={require('../../../public/lose.png').default.src} />
                 )}
                 <div className={styles.bingoText}>
                   <span>{text}</span>

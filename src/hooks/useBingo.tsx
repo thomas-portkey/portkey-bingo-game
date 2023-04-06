@@ -62,7 +62,7 @@ const useBingo = () => {
   const txIdRef = useRef('');
   const smallOrBigRef = useRef(false); // true: big, false: small;
   const tokenContractAddressRef = useRef('');
-  const balanceInputValueRef = useRef<string>();
+  const balanceInputValueRef = useRef<string>('1');
 
   const accountAddress = `ELF_${caAddress}_${chainInfoRef.current?.chainId}`;
 
@@ -173,7 +173,7 @@ const useBingo = () => {
   };
 
   const unLock = async () => {
-    const wallet = await did.load(passwordValue, KEY_NAME);
+    const wallet = await did.load('', KEY_NAME);
     if (!wallet.didWallet.accountInfo.loginAccount) {
       //   setIsErrorTipShow(true);
       return;
@@ -257,19 +257,19 @@ const useBingo = () => {
     const value = Number(balanceInputValueRef.current);
 
     if (value < 1) {
-      return Toast.show('A minimum bet of 1 ELFs!');
+      return Toast.show('A minimum bet of 1 ELF!');
     }
     if (value <= 0) {
-      Toast.show('Please enter a positive integer greater than 0!');
+      Toast.show('Insufficient funds');
       return;
     }
 
     if (value > Number(balanceValue)) {
-      Toast.show('Please enter a number less than the number of ELFs you own!');
+      Toast.show('Please enter a number less than the number of ELF you own!');
       return;
     }
     if (value > 100) {
-      Toast.show('Please enter a number less than 100 ELFs!');
+      Toast.show('Please enter a number less than 100 ELF!');
       return;
     }
 
@@ -413,6 +413,7 @@ const useBingo = () => {
     setBalanceValue,
     balanceInputValue: balanceInputValueRef.current,
     step,
+    getBalance,
     initContract,
     setLoading,
     loading,
