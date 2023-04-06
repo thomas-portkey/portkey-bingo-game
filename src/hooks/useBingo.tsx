@@ -256,12 +256,13 @@ const useBingo = () => {
     // const value = parseInt(balanceInputValueRef.current, 10);
     const value = Number(balanceInputValueRef.current);
 
-    if (value < 1) {
-      return Toast.show('A minimum bet of 1 ELF!');
-    }
     if (value <= 0) {
       Toast.show('Insufficient funds');
       return;
+    }
+
+    if (value < 1) {
+      return Toast.show('A minimum bet of 1 ELF!');
     }
 
     if (value > Number(balanceValue)) {

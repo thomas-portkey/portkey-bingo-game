@@ -311,7 +311,14 @@ const MBingoGame = () => {
                   <span style={style}>{Math.abs(difference).toFixed(2)} ELF</span>
                 </div>
               </div>
-              <Button className={styles.playContent__betBtn} type={ButtonType.ORIANGE} onClick={onBet}>
+              <Button
+                className={styles.playContent__betBtn}
+                type={ButtonType.ORIANGE}
+                onClick={() => {
+                  onBet();
+                  setBalanceInputValue('1');
+                  setInputValue('1');
+                }}>
                 <span className={styles.playContent__betBtn_p}>
                   <p style={{ fontSize: '24px' }} className={styles.artWord}>
                     BET

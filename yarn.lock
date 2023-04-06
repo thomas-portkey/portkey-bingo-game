@@ -290,10 +290,10 @@
     "@portkey/utils" "^0.0.1-alpha.1.4"
     aelf-sdk "^3.2.44"
 
-"@portkey/did-ui-react@0.0.1-alpha.3.0":
-  version "0.0.1-alpha.3.0"
-  resolved "https://registry.yarnpkg.com/@portkey/did-ui-react/-/did-ui-react-0.0.1-alpha.3.0.tgz#8253f473b26a2e1dea1cbe72b28d2d88fa5d14ab"
-  integrity sha512-7UNi6nd7XBszTBE2Ga46+MHLXYTcBWH6H+X5gZCQduB08XtoCfWvgfRo2iYcqH9aRsIjs9WjIcbR+C+nNs2r+Q==
+"@portkey/did-ui-react@0.0.1-alpha.3.1":
+  version "0.0.1-alpha.3.1"
+  resolved "https://registry.yarnpkg.com/@portkey/did-ui-react/-/did-ui-react-0.0.1-alpha.3.1.tgz#c1a429c6f926e93f6cdeaf3cfea0ab6dc7e2f0a0"
+  integrity sha512-xikh1/Z3+qQuVnZ/jD6LAFbhz34+lZYT7NR/Gv8Ta77105NDQFBXShf0i0HZcD/E1PKOXwwotGzAkOHeN5sp5A==
   dependencies:
     "@portkey/did" "^0.0.1-alpha.2.7"
     aelf-sdk "^3.2.40"

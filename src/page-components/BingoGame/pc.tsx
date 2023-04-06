@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import useBingo, { SettingPage, StepStatus, KEY_NAME } from '../../hooks/useBingo';
 
 import { SignIn, did, PortkeyLoading } from '@portkey/did-ui-react';
-import { CenterPopup, Input } from 'antd-mobile';
+import { Input, message } from 'antd';
 
 import { Button, ButtonType } from './index_v2';
 import { QRCode } from 'react-qrcode-logo';
 import { CHAIN_ID } from '../../constants/network';
+import Clipboard from 'clipboard';
 
 import styles from './style_pc.module.css';
+import { shrinkSendQrData } from '../../utils/common';
 
 const PCBingoGame = () => {
   const {
@@ -25,6 +27,7 @@ const PCBingoGame = () => {
     balanceValue,
     balanceInputValue,
     setBalanceInputValue,
+    getBalance,
     isLogin,
     showQrCode,
     isWin,
@@ -45,6 +48,45 @@ const PCBingoGame = () => {
     accountAddress,
   } = useBingo();
 
+  const copyBtnRef = useRef(null);
+  const copyBoard = useRef(null);
+
+  useEffect(() => {
+    if (copyBtnRef.current && !copyBoard.current) {
+      const clipboard = new Clipboard(copyBtnRef.current, {
+        text: () => {
+          return accountAddress;
+        },
+      });
+      clipboard.on('success', () => {
+        message.success('Copied!');
+      });
+      clipboard.on('error', () => {
+        message.error('Copied!');
+      });
+      copyBoard.current = clipboard;
+    }
+  });
+
+  const getQrInfo = () => {
+    const info = shrinkSendQrData({
+      type: 'send',
+      netWorkType: 'TESTNET',
+      chainType: 'aelf',
+      toInfo: {
+        address: caAddress,
+        name: '',
+      },
+      assetInfo: {
+        symbol: 'ELF',
+        chainId: 'tDVV',
+        tokenContractAddress: tokenContractAddress,
+        decimals: '8',
+      },
+      address: caAddress,
+    });
+  };
+
   const renderDefault = () => {
     return (
       <div className={styles.defaultWrapper}>
@@ -52,22 +94,6 @@ const PCBingoGame = () => {
         <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
           <p className={styles.artWord}>PLAY NOW</p>
         </Button>
-        {/* {step === StepStatus.LOCK && (
-          <Button
-            className={styles.defaultBtn}
-            type={ButtonType.BLUE}
-            onClick={() => {
-              unLock();
-            }}>
-            <p className={styles.artWord}>UNLOCK</p>
-          </Button>
-        )}
-
-        {step === StepStatus.LOGIN && (
-          <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
-            <p className={styles.artWord}>PLAY NOW</p>
-          </Button>
-        )} */}
       </div>
     );
   };
@@ -75,7 +101,7 @@ const PCBingoGame = () => {
   const PlayWrapper = (props: any) => {
     const { children, show = true } = props;
     return (
-      <CenterPopup visible={show} className={styles.centerPopup}>
+      <div className={styles.centerPopup}>
         <div className={styles.playWrapper}>
           <div className={styles.playContent}>{children}</div>
         </div>
@@ -96,7 +122,7 @@ const PCBingoGame = () => {
             }}
             className={[styles.settingBtn, styles.button].join(' ')}></button>
         </div>
-      </CenterPopup>
+      </div>
     );
   };
 
@@ -318,41 +344,83 @@ const PCBingoGame = () => {
     );
   };
 
-  const renderSence = () => {
-    // if (settingPage !== SettingPage.NULL) {
-    //   return renderSettingPage();
-    // }
+  // const renderSence = () => {
+  //   // if (settingPage !== SettingPage.NULL) {
+  //   //   return renderSettingPage();
+  //   // }
 
-    return renderPlay();
+  //   return renderPlay();
 
-    switch (step) {
-      case StepStatus.INIT:
-      case StepStatus.LOCK:
-      case StepStatus.LOGIN:
-        return renderDefault();
-      case StepStatus.PLAY:
-        return renderPlay();
-      case StepStatus.CUTDOWN:
-        return renderCutDown();
-      case StepStatus.BINGO:
-        return renderBingo();
-      default:
-        break;
-    }
-  };
+  //   switch (step) {
+  //     case StepStatus.INIT:
+  //     case StepStatus.LOCK:
+  //     case StepStatus.LOGIN:
+  //       return renderDefault();
+  //     case StepStatus.PLAY:
+  //       return renderPlay();
+  //     case StepStatus.CUTDOWN:
+  //       return renderCutDown();
+  //     case StepStatus.BINGO:
+  //       return renderBingo();
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <div className={styles.background}>
       <PortkeyLoading loading={loading} />
-      <div className={styles.settingHeader}>
-        <div className={styles.setting__balance}>
-          <span>Balance</span>
-          <span>{balanceValue} ELF</span>
-          <button>reLoad</button>
+      {[StepStatus.INIT, StepStatus.LOCK, StepStatus.LOGIN].includes(step) ? (
+        <div>
+          <div className={styles.defaultWrapper}>
+            <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
+            <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
+              <p className={styles.artWord}>PLAY NOW</p>
+            </Button>
+          </div>
         </div>
-        <div className={styles.setting__account}></div>
-      </div>
-      {renderSence()}
+      ) : (
+        <div>
+          <div className={styles.settingHeader}>
+            <div className={styles.setting__balance}>
+              <div className={styles.setting__balance__content}>
+                <div>Balance</div>
+                <div>{balanceValue} ELF</div>
+                <button
+                  onClick={() => {
+                    getBalance();
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.setting__account}>
+              <div className={styles.setting__account__content}>
+                <div>Account</div>
+                <div>{accountAddress} ELF</div>
+                <button
+                  ref={(ref) => {
+                    copyBtnRef.current = ref;
+                  }}
+                  className={styles.setting__account__content__copy}
+                  onClick={() => {
+                    getBalance();
+                  }}
+                />
+                <div className={styles.setting__account__content__qrcode} onTouchMove={() => {}} />
+              </div>
+            </div>
+            <button className={styles.setting__logout} onClick={logOut}>
+              Logout{' '}
+            </button>
+          </div>
+          <div className={styles.contentWrapper}>
+            <div className={styles.content__bg}>
+              {step === StepStatus.PLAY && <div>1111</div>}
+              {step === StepStatus.BINGO && <div>222</div>}
+            </div>
+          </div>
+        </div>
+      )}
 
       <SignIn
         open={isLogin}
