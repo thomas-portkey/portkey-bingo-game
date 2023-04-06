@@ -102,8 +102,8 @@ const PCBingoGame = () => {
 
   const renderPlay = () => {
     return (
-      <PlayWrapper>
-        <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
+      <div>
+        {/* <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
           ?
         </div>
         <div className={styles.playContent__input}>
@@ -165,8 +165,8 @@ const PCBingoGame = () => {
               <p>(0 - 128)</p>
             </span>
           </Button>
-        </div>
-      </PlayWrapper>
+        </div> */}
+      </div>
     );
   };
 
@@ -319,9 +319,11 @@ const PCBingoGame = () => {
   };
 
   const renderSence = () => {
-    if (settingPage !== SettingPage.NULL) {
-      return renderSettingPage();
-    }
+    // if (settingPage !== SettingPage.NULL) {
+    //   return renderSettingPage();
+    // }
+
+    return renderPlay();
 
     switch (step) {
       case StepStatus.INIT:
@@ -342,7 +344,16 @@ const PCBingoGame = () => {
   return (
     <div className={styles.background}>
       <PortkeyLoading loading={loading} />
+      <div className={styles.settingHeader}>
+        <div className={styles.setting__balance}>
+          <span>Balance</span>
+          <span>{balanceValue} ELF</span>
+          <button>reLoad</button>
+        </div>
+        <div className={styles.setting__account}></div>
+      </div>
       {renderSence()}
+
       <SignIn
         open={isLogin}
         sandboxId="portkey-ui-sandbox"
