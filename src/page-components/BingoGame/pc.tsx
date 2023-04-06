@@ -406,7 +406,7 @@ const PCBingoGame = () => {
                     getBalance();
                   }}
                 />
-                <div className={styles.setting__account__content__qrcode} onTouchMove={() => {}} />
+                <div className={styles.setting__account__content__qrcode} />
               </div>
             </div>
             <button className={styles.setting__logout} onClick={logOut}>
