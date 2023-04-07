@@ -17,7 +17,6 @@ const PCBingoGame = () => {
   const [inputValue, setInputValue] = useState('1');
   const copyBtnRef = useRef(null);
   const copyBoard = useRef(null);
-
   const {
     onBet,
     onBingo,
@@ -285,91 +284,93 @@ const PCBingoGame = () => {
 
   return (
     <div className={styles.background}>
-      <PortkeyLoading loading={loading} />
-      {![StepStatus.INIT, StepStatus.LOCK, StepStatus.LOGIN, StepStatus.END].includes(step) && (
-        <div className={styles.settingHeader}>
-          <div className={styles.setting__balance}>
-            <div className={styles.setting__balance__content}>
-              <div>Balance</div>
-              <div>{balanceValue} ELF</div>
-              <button
-                className={styles.btn}
-                onClick={() => {
-                  getBalance();
-                }}
-              />
-            </div>
-          </div>
-          <div className={styles.setting__account}>
-            <div className={styles.setting__account__content}>
-              <div>Account</div>
-              <div style={{ width: '400px', overflow: 'hidden' }}>
-                {accountAddress.length > 30
-                  ? `${accountAddress.slice(0, 15)}...${accountAddress.slice(
-                      accountAddress.length - 10,
-                      accountAddress.length,
-                    )}`
-                  : accountAddress}
+      <div className={styles.bodyWrapper}>
+        <PortkeyLoading loading={loading} />
+        {![StepStatus.INIT, StepStatus.LOCK, StepStatus.LOGIN, StepStatus.END].includes(step) && (
+          <div className={styles.settingHeader}>
+            <div className={styles.setting__balance}>
+              <div className={styles.setting__balance__content}>
+                <div>Balance</div>
+                <div>{balanceValue} ELF</div>
+                <button
+                  className={styles.btn}
+                  onClick={() => {
+                    getBalance();
+                  }}
+                />
               </div>
-              <button
-                ref={(ref) => {
-                  copyBtnRef.current = ref;
-                }}
-                className={styles.setting__account__content__copy}
-              />
-
-              <Popover
-                content={() => (
-                  <QRCode
-                    value={JSON.stringify(getQrInfo())}
-                    size={200}
-                    quietZone={0}
-                    qrStyle={'squares'}
-                    eyeRadius={{ outer: 7, inner: 4 }}
-                    ecLevel={'L'}
-                  />
-                )}>
-                <div className={styles.setting__account__content__qrcode} />
-              </Popover>
             </div>
+            <div className={styles.setting__account}>
+              <div className={styles.setting__account__content}>
+                <div>Account</div>
+                <div style={{ width: '400px', overflow: 'hidden' }}>
+                  {accountAddress.length > 30
+                    ? `${accountAddress.slice(0, 15)}...${accountAddress.slice(
+                        accountAddress.length - 10,
+                        accountAddress.length,
+                      )}`
+                    : accountAddress}
+                </div>
+                <button
+                  ref={(ref) => {
+                    copyBtnRef.current = ref;
+                  }}
+                  className={styles.setting__account__content__copy}
+                />
+
+                <Popover
+                  content={() => (
+                    <QRCode
+                      value={JSON.stringify(getQrInfo())}
+                      size={200}
+                      quietZone={0}
+                      qrStyle={'squares'}
+                      eyeRadius={{ outer: 7, inner: 4 }}
+                      ecLevel={'L'}
+                    />
+                  )}>
+                  <div className={styles.setting__account__content__qrcode} />
+                </Popover>
+              </div>
+            </div>
+            <button className={styles.setting__logout} onClick={logOut}>
+              Logout
+            </button>
           </div>
-          <button className={styles.setting__logout} onClick={logOut}>
-            Logout
-          </button>
-        </div>
-      )}
-      {renderSence()}
-      {/* cutDown Tip*/}
-      {step === StepStatus.CUTDOWN && renderCutDown()}
-      <SignIn
-        open={isLogin}
-        sandboxId="portkey-ui-sandbox"
-        defaultChainId={CHAIN_ID}
-        isShowScan
-        onFinish={async (wallet) => {
-          if (wallet.chainId !== CHAIN_ID) {
-            const caInfo = await did.didWallet.getHolderInfoByContract({
-              caHash: wallet.caInfo.caHash,
-              chainId: CHAIN_ID,
-            });
-            wallet.caInfo = {
-              caAddress: caInfo.caAddress,
-              caHash: caInfo.caHash,
-            };
-          }
-          setLoading(true);
-          setIsLogin(false);
-          setWallet(wallet);
-          did.save(wallet.pin, KEY_NAME);
-          initContract();
-        }}
-        onError={(err) => {
-          console.error(err, 'onError==');
-        }}
-        onCancel={() => {
-          setIsLogin(false);
-        }}
-      />
+        )}
+        {renderSence()}
+        {step === StepStatus.CUTDOWN && renderCutDown()}
+
+        <SignIn
+          open={isLogin}
+          sandboxId="portkey-ui-sandbox"
+          defaultChainId={CHAIN_ID}
+          isShowScan
+          onFinish={async (wallet) => {
+            if (wallet.chainId !== CHAIN_ID) {
+              const caInfo = await did.didWallet.getHolderInfoByContract({
+                caHash: wallet.caInfo.caHash,
+                chainId: CHAIN_ID,
+              });
+              wallet.caInfo = {
+                caAddress: caInfo.caAddress,
+                caHash: caInfo.caHash,
+              };
+            }
+            setLoading(true);
+            setIsLogin(false);
+            setWallet(wallet);
+            did.save(wallet.pin, KEY_NAME);
+            initContract();
+          }}
+          onError={(err) => {
+            console.error(err, 'onError==');
+          }}
+          onCancel={() => {
+            setIsLogin(false);
+          }}
+        />
+      </div>
     </div>
   );
 };
