@@ -63,8 +63,28 @@
 
 .defaultBtn {
   margin-top: 8vh;
-  height: 9.25vh;
-  width: 37vh;
+  width: 392px;
+  height: 100px;
+  background-image: url('../../../public/btn_var4.png') !important;
+  background-size: 100% 100%;
+}
+
+.initTip {
+  width: 365px;
+  height: 30px;
+  font-weight: 400;
+  font-size: 24px;
+  margin-top: 36px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-self: center;
+}
+
+.initTip img {
+  width: 30px;
+  height: 30px;
+  margin-right: 14px;
 }
 
 .wrapper {
@@ -95,30 +115,6 @@
 
 .button:active {
   transform: translate(0, 0.375em);
-}
-
-.playWrapper {
-  position: relative;
-  display: inline-block;
-  width: 80vw;
-  height: 153.8vw;
-  background-color: transparent;
-  background-image: url('../../../public/frame.png');
-  background-size: 100% 100%;
-}
-
-.background :global .adm-center-popup-wrap {
-  max-width: 100vw;
-  max-height: 100vh;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.background :global .adm-center-popup-body {
-  background-color: transparent;
 }
 
 .settingHeader {
@@ -250,6 +246,54 @@
   background-size: 100% 100%;
 }
 
+.content__wrapper {
+  margin-top: 381px;
+  margin-left: 137px;
+  margin-right: 137px;
+  margin-bottom: 70px;
+  height: 345px;
+
+  display: flex;
+}
+
+.content__right {
+  flex: 1;
+  margin-left: 65px;
+}
+
+.content__inputWrapper {
+  background: #ffffff;
+  border: 3.5px solid #000000;
+  border-radius: 20px;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.content__inputWrapper span {
+  font-weight: 500;
+  font-size: 40px;
+  color: #ff9903;
+  margin-right: 29px;
+}
+
+.content__input {
+  font-weight: 500;
+  font-size: 40px;
+  flex: 1;
+  margin-left: 40px;
+  margin-right: 20px;
+  color: #000000;
+}
+
+/* .content__right :global .ant-input-number {
+  background: #ffffff;
+  border: 3.5px solid #000000;
+  border-radius: 20px;
+  height: 100px;
+} */
+
 .playContent {
   margin: 44.1vw 13.2vw 8.5vw 13.2vw;
 }
@@ -286,35 +330,55 @@
 }
 
 .playContent__btnGroups {
-  margin-top: 8px;
+  margin-top: 13px;
   display: flex;
   justify-content: space-between;
 }
 .playContent__btn {
-  background-image: url('../../../public/btn_var3.png');
+  background-image: url('../../../public/rectangle_pc.png');
   background-size: 100% 100%;
-  width: 16vw;
-  height: 8vw;
+  width: 225px;
+  height: 60px;
   color: #fff;
-}
-
-.playContent__betBtnGroups {
-  margin-top: 8px;
-}
-
-.playContent__betBtn {
-  width: 56vw;
-  height: 13.3vw;
-}
-
-.playContent__betBtn p {
-  line-height: 24px;
   font-size: 24px;
 }
 
+.playContent__betBtnGroups {
+  margin-top: 41px;
+}
+
+.playContent__betBtn {
+  /* position: absolute; */
+  bottom: 82px;
+  width: 224px;
+  height: 100px;
+  background-image: url('../../../public/btn_pc_var1.png');
+  background-size: 100% 100%;
+}
+
+.bingoContent__betBtn {
+  position: absolute;
+  bottom: 82px;
+  width: 224px;
+  height: 100px;
+  background-image: url('../../../public/btn_pc_var1.png');
+  background-size: 100% 100%;
+  font-weight: 900;
+  font-size: 48px;
+}
+
+.playContent__betBtnGroups button:first-child {
+  margin-right: 31px;
+}
+
+.playContent__betBtn p {
+  line-height: 48px;
+  font-size: 48px;
+}
+
 .playContent__betBtn p:last-child {
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 18px;
+  line-height: 18px;
 }
 
 .playContent__betBtnGroups .playContent__betBtn:last-child {
@@ -349,8 +413,12 @@
 }
 
 .cutDownWrapper {
-  position: relative;
+  position: absolute;
   overflow: hidden;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -361,8 +429,8 @@
 .cutDown__bg {
   background-image: url('../../../public/circle_ray.png');
   background-size: 100% 100%;
-  width: 140vh;
-  height: 140vh;
+  width: 140vw;
+  height: 140vw;
   position: absolute;
   z-index: 0;
   animation: cutDownRote 30s linear infinite;
@@ -392,18 +460,97 @@
 }
 
 .cutDown p {
-  margin-left: 7vw;
+  margin-left: 35px;
+}
+
+.cutDown__tip {
+  position: absolute;
+  bottom: 43px;
+  color: #ffffff;
+  font-size: 36px;
+}
+
+.bingoLogo {
+  position: absolute;
+  z-index: 1;
+  left: 337.5px;
+  width: 673px;
+  height: 217px;
+
+  background-image: url('../../../public/bingo_pc.png');
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bingoContentWrapper {
+  position: relative;
+  margin-top: 158px;
+  height: 671px;
+  width: 1322px;
+  display: flex;
+  margin-left: calc(50vw - 1322px / 2);
 }
 
 .bingoContent {
   width: 100%;
-  height: 99.4vw;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: column;
 }
+
+.bingoContent__bg {
+  margin-top: 74.5px;
+  width: 1322px;
+  height: 805px;
+  background-image: url('../../../public/frame_pc_2.png');
+  background-size: 100% 100%;
+  position: relative;
+}
+
+.bingoContent__wrapper {
+  margin-top: 303px;
+  margin-left: 137px;
+  margin-right: 137px;
+  margin-bottom: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.contentBingoInit__wrapper {
+  margin-top: 381px;
+  margin-left: 137px;
+  margin-right: 137px;
+  margin-bottom: 70px;
+  height: 345px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.initBingoLogo {
+  left: 337.5px;
+  width: 673px;
+  height: 217px;
+
+  background-image: url('../../../public/bingo_pc.png');
+  background-size: 100% 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bingoBtn {
+  margin-top: 26px;
+  width: 224px;
+  height: 100px;
+}
+
 .bingoTips {
   display: flex;
   flex-direction: column;
@@ -412,8 +559,7 @@
 }
 
 .bingoText {
-  margin-top: 9px;
-  width: 100%;
+  margin-top: 28px;
 
   display: inline-flex;
   align-items: center;
@@ -422,19 +568,20 @@
 
 .bingoText span:first-child {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 40px;
+  margin-right: 16px;
 }
 
 .bingoText span:last-child {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 40px;
   border-radius: 15px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
   line-height: 19px;
-  width: 34.5vw;
-  height: 7.1vw;
+  width: 294px;
+  height: 60px;
 }
 
 .settingContent {

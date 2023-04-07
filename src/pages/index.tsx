@@ -1,4 +1,4 @@
-export { default } from '../page-components/BingoGame/index_v2';
+export { default } from '../page-components/BingoGame';
 
 import { SideProps } from '../type';
 
