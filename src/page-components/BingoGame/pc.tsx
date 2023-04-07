@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import useBingo, { SettingPage, StepStatus, KEY_NAME } from '../../hooks/useBingo';
 
 import { SignIn, did, PortkeyLoading } from '@portkey/did-ui-react';
-import { Input, message } from 'antd';
+import { InputNumber, message, Popover } from 'antd';
 
-import { Button, ButtonType } from './index_v2';
+import { Button, ButtonType } from '.';
 import { QRCode } from 'react-qrcode-logo';
 import { CHAIN_ID } from '../../constants/network';
 import Clipboard from 'clipboard';
@@ -14,6 +14,10 @@ import styles from './style_pc.module.css';
 import { shrinkSendQrData } from '../../utils/common';
 
 const PCBingoGame = () => {
+  const [inputValue, setInputValue] = useState('1');
+  const copyBtnRef = useRef(null);
+  const copyBoard = useRef(null);
+
   const {
     onBet,
     onBingo,
@@ -23,7 +27,6 @@ const PCBingoGame = () => {
     logOut,
     lock,
     step,
-    settingPage,
     balanceValue,
     balanceInputValue,
     setBalanceInputValue,
@@ -47,9 +50,6 @@ const PCBingoGame = () => {
     tokenContractAddress,
     accountAddress,
   } = useBingo();
-
-  const copyBtnRef = useRef(null);
-  const copyBoard = useRef(null);
 
   useEffect(() => {
     if (copyBtnRef.current && !copyBoard.current) {
@@ -89,38 +89,16 @@ const PCBingoGame = () => {
 
   const renderDefault = () => {
     return (
-      <div className={styles.defaultWrapper}>
-        <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
-        <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
-          <p className={styles.artWord}>PLAY NOW</p>
-        </Button>
-      </div>
-    );
-  };
-
-  const PlayWrapper = (props: any) => {
-    const { children, show = true } = props;
-    return (
-      <div className={styles.centerPopup}>
-        <div className={styles.playWrapper}>
-          <div className={styles.playContent}>{children}</div>
-        </div>
-        <div className={styles.settingBtnGroups}>
-          <button
-            onClick={() => {
-              setSettingPage(SettingPage.ACCOUNT);
-            }}
-            className={[styles.settingBtn, styles.button].join(' ')}></button>
-          <button
-            onClick={() => {
-              setSettingPage(SettingPage.BALANCE);
-            }}
-            className={[styles.settingBtn, styles.button].join(' ')}></button>
-          <button
-            onClick={() => {
-              setSettingPage(SettingPage.LOGOUT);
-            }}
-            className={[styles.settingBtn, styles.button].join(' ')}></button>
+      <div>
+        <div className={styles.defaultWrapper}>
+          <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
+          <Button className={styles.defaultBtn} type={ButtonType.ORIANGE} onClick={login}>
+            <p className={styles.artWord}>PLAY NOW</p>
+          </Button>
+          <div className={styles.initTip}>
+            <img src={require('../../../public/warn.svg').default.src} />
+            <span>This is a demo on the Testnet.</span>
+          </div>
         </div>
       </div>
     );
@@ -129,69 +107,78 @@ const PCBingoGame = () => {
   const renderPlay = () => {
     return (
       <div>
-        {/* <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
-          ?
+        <div className={styles.contentWrapper}>
+          <div className={styles.content__bg}>
+            <div className={styles.content__wrapper}>
+              <img src={require('../../../public/question.png').default.src} />
+              <div className={styles.content__right}>
+                <div className={styles.content__inputWrapper}>
+                  <InputNumber
+                    value={inputValue}
+                    bordered={false}
+                    precision={2}
+                    min={'0'}
+                    max={'100'}
+                    className={styles.content__input}
+                    onChange={(val) => {
+                      setBalanceInputValue(val);
+                      setInputValue(val);
+                    }}
+                    controls={false}></InputNumber>
+                  <span>BET ELF</span>
+                </div>
+                <div className={styles.playContent__btnGroups}>
+                  <button
+                    onClick={() => {
+                      setBalanceInputValue('1');
+                      setInputValue('1');
+                    }}
+                    className={[styles.playContent__btn, styles.button].join(' ')}>
+                    MIN
+                  </button>
+                  <button
+                    onClick={() => {
+                      try {
+                        const balance = Math.min(Number(balanceValue), 100);
+                        setBalanceInputValue(`${Math.floor(balance)}`);
+                        setInputValue(`${Math.floor(balance)}`);
+                      } catch (error) {
+                        console.log('error', error);
+                      }
+                    }}
+                    className={[styles.playContent__btn, styles.button].join(' ')}>
+                    MAX
+                    <span style={{ fontSize: '16px', paddingLeft: '4px' }}>(100)</span>
+                  </button>
+                </div>
+                <div className={styles.playContent__betBtnGroups}>
+                  <Button
+                    className={styles.playContent__betBtn}
+                    type={ButtonType.ORIANGE}
+                    onClick={async () => {
+                      onPlay(true);
+                    }}>
+                    <span className={styles.playContent__betBtn_p}>
+                      <p className={styles.artWord}>BIG</p>
+                      <p>(129 - 256)</p>
+                    </span>
+                  </Button>
+                  <Button
+                    className={styles.playContent__betBtn}
+                    type={ButtonType.BLUE}
+                    onClick={() => {
+                      onPlay(false);
+                    }}>
+                    <span className={styles.playContent__betBtn_p}>
+                      <p className={styles.artWord}>SMALL</p>
+                      <p>(0 - 128)</p>
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className={styles.playContent__input}>
-          <Input
-            placeholder="0"
-            value={balanceInputValue}
-            style={{ fontSize: '24px' }}
-            type="number"
-            max={100}
-            min={1}
-            onChange={(val) => {
-              setBalanceInputValue(val);
-            }}
-          />
-          <span style={{ paddingRight: '8px' }}>BET</span>
-          <span>ELF</span>
-        </div>
-        <div className={styles.playContent__btnGroups}>
-          <button
-            onClick={() => {
-              setBalanceInputValue('1');
-            }}
-            className={[styles.playContent__btn, styles.button].join(' ')}>
-            MIN
-          </button>
-          <button
-            onClick={() => {
-              try {
-                const balance = Math.min(Number(balanceValue), 100);
-                setBalanceInputValue(`${Math.floor(balance)}`);
-              } catch (error) {
-                console.log('error', error);
-              }
-            }}
-            className={[styles.playContent__btn, styles.button].join(' ')}>
-            MAX
-          </button>
-        </div>
-        <div className={styles.playContent__betBtnGroups}>
-          <Button
-            className={styles.playContent__betBtn}
-            type={ButtonType.ORIANGE}
-            onClick={async () => {
-              onPlay(true);
-            }}>
-            <span className={styles.playContent__betBtn_p}>
-              <p className={styles.artWord}>BIG</p>
-              <p>(129 - 256)</p>
-            </span>
-          </Button>
-          <Button
-            className={styles.playContent__betBtn}
-            type={ButtonType.BLUE}
-            onClick={() => {
-              onPlay(false);
-            }}>
-            <span className={styles.playContent__betBtn_p}>
-              <p className={styles.artWord}>SMALL</p>
-              <p>(0 - 128)</p>
-            </span>
-          </Button>
-        </div> */}
       </div>
     );
   };
@@ -203,6 +190,7 @@ const PCBingoGame = () => {
         <div className={styles.cutDown}>
           <p>{time} s</p>
         </div>
+        <span className={styles.cutDown__tip}>Getting on-chain data to generate random numbers...</span>
       </div>
     );
   };
@@ -219,219 +207,159 @@ const PCBingoGame = () => {
           background: '#FFCB9B',
         };
     return (
-      <PlayWrapper>
-        <div className={styles.bingoContent}>
-          <div style={{ fontSize: '96px' }} className={[styles.boardWrapper, styles.artWord].join(' ')}>
-            {result === Infinity ? '?' : result}
+      <div>
+        {hasFinishBet ? (
+          <div className={styles.bingoContentWrapper}>
+            <div className={styles.bingoLogo}>
+              <div style={{ fontSize: '180px' }} className={[styles.artWord].join(' ')}>
+                {result === Infinity ? '?' : result}
+              </div>
+            </div>
+            <div className={styles.bingoContent__bg}>
+              <div className={styles.bingoContent__wrapper}>
+                <>
+                  <div className={styles.bingoTips}>
+                    {isWin ? (
+                      <img src={require('../../../public/congratulations_pc.png').default.src} />
+                    ) : (
+                      <img src={require('../../../public/lose_pc.png').default.src} />
+                    )}
+                    <div className={styles.bingoText}>
+                      <span>{text}</span>
+                      <span style={style}>{Math.abs(difference).toFixed(2)} ELF</span>
+                    </div>
+                  </div>
+                  <Button
+                    className={styles.bingoContent__betBtn}
+                    type={ButtonType.ORIANGE}
+                    onClick={() => {
+                      onBet();
+                      setBalanceInputValue('1');
+                      setInputValue('1');
+                    }}>
+                    <span className={styles.playContent__betBtn_p}>
+                      <p style={{ fontSize: '48px', fontWeight: 900 }} className={styles.artWord}>
+                        BET
+                      </p>
+                    </span>
+                  </Button>
+                </>
+              </div>
+            </div>
           </div>
-          {hasFinishBet ? (
-            <>
-              <div className={styles.bingoTips}>
-                {isWin ? (
-                  <img src={require('../../../public/congratulation.png').default.src} />
-                ) : (
-                  <img src={require('../../../public/lose.png').default.src} />
-                )}
-                <div className={styles.bingoText}>
-                  <span>{text}</span>
-                  <span style={style}>{Math.abs(difference).toFixed(8)} ELF</span>
+        ) : (
+          <div className={styles.contentWrapper}>
+            <div className={styles.content__bg}>
+              <div className={styles.contentBingoInit__wrapper}>
+                <div className={styles.initBingoLogo}>
+                  <div style={{ fontSize: '180px' }} className={[styles.artWord].join(' ')}>
+                    {result === Infinity ? '?' : result}
+                  </div>
                 </div>
-              </div>
-              <Button className={styles.playContent__betBtn} type={ButtonType.ORIANGE} onClick={onBet}>
-                <span className={styles.playContent__betBtn_p}>
-                  <p style={{ fontSize: '24px' }} className={styles.artWord}>
-                    BET
-                  </p>
-                </span>
-              </Button>
-            </>
-          ) : (
-            <Button className={styles.playContent__betBtn} type={ButtonType.ORIANGE} onClick={onBingo}>
-              <span className={styles.playContent__betBtn_p}>
-                <p style={{ fontSize: '24px' }} className={styles.artWord}>
-                  BINGO
-                </p>
-              </span>
-            </Button>
-          )}
-        </div>
-      </PlayWrapper>
-    );
-  };
-
-  const renderSettingPage = () => {
-    const info = {
-      type: 'send',
-      sendType: 'token',
-      netWorkType: 'TESTNET',
-      chainType: 'tDVV',
-      toInfo: {
-        address: caAddress,
-        name: '',
-      },
-      assetInfo: {
-        symbol: 'ELF',
-        chainId: 'tDVV',
-        imageUrl: '',
-        tokenContractAddress: tokenContractAddress,
-        decimals: '8',
-      },
-      address: caAddress,
-    };
-
-    return (
-      <PlayWrapper>
-        <div className={styles.settingContent}>
-          {settingPage === SettingPage.ACCOUNT && (
-            <div className={styles.settingContent__account}>
-              <h1>Account</h1>
-              {!showQrCode ? (
-                <p className={styles.settingContent__account__text}>{accountAddress}</p>
-              ) : (
-                <QRCode
-                  value={JSON.stringify(info)}
-                  size={200}
-                  quietZone={0}
-                  qrStyle={'squares'}
-                  eyeRadius={{ outer: 7, inner: 4 }}
-                  ecLevel={'L'}
-                />
-              )}
-              <div>
-                <button className={[styles.settingBtn__copy, styles.button].join(' ')}></button>
-                <button
-                  onClick={() => {
-                    setShowQrCode(true);
-                  }}
-                  className={[styles.settingBtn__qrcode, styles.button].join(' ')}></button>
-              </div>
-            </div>
-          )}
-          {settingPage === SettingPage.BALANCE && (
-            <div className={styles.settingContent__balance}>
-              <h1>Balance</h1>
-              <div className={styles.settingContent__balance__text}>{balanceValue} ELF</div>
-            </div>
-          )}
-          {settingPage === SettingPage.LOGOUT && (
-            <div className={styles.settingContent__logout}>
-              <div>
-                <Button className={styles.settingContent__logout__btn} type={ButtonType.BLUE} onClick={logOut}>
-                  <p className={styles.artWord}>Logout</p>
-                </Button>
-                <Button className={styles.settingContent__logout__btn} type={ButtonType.BLUE} onClick={lock}>
-                  <img src={require('../../../public/lock.svg').default.src} />
+                <Button className={styles.bingoBtn} type={ButtonType.ORIANGE} onClick={onBingo}>
+                  <p className={styles.artWord}>BINGO</p>
                 </Button>
               </div>
             </div>
-          )}
-
-          <Button
-            className={styles.playContent__betBtn}
-            type={ButtonType.ORIANGE}
-            onClick={() => {
-              setSettingPage(SettingPage.NULL);
-              setShowQrCode(false);
-            }}>
-            <span className={styles.playContent__betBtn_p}>
-              <p style={{ fontSize: '24px' }} className={styles.artWord}>
-                CLOSE
-              </p>
-            </span>
-          </Button>
-        </div>
-      </PlayWrapper>
+          </div>
+        )}
+      </div>
     );
   };
 
-  // const renderSence = () => {
-  //   // if (settingPage !== SettingPage.NULL) {
-  //   //   return renderSettingPage();
-  //   // }
-
-  //   return renderPlay();
-
-  //   switch (step) {
-  //     case StepStatus.INIT:
-  //     case StepStatus.LOCK:
-  //     case StepStatus.LOGIN:
-  //       return renderDefault();
-  //     case StepStatus.PLAY:
-  //       return renderPlay();
-  //     case StepStatus.CUTDOWN:
-  //       return renderCutDown();
-  //     case StepStatus.BINGO:
-  //       return renderBingo();
-  //     default:
-  //       break;
-  //   }
-  // };
+  const renderSence = () => {
+    switch (step) {
+      case StepStatus.INIT:
+      case StepStatus.LOCK:
+      case StepStatus.LOGIN:
+        return renderDefault();
+      case StepStatus.CUTDOWN:
+      case StepStatus.PLAY:
+        return renderPlay();
+      case StepStatus.BINGO:
+        return renderBingo();
+      default:
+        break;
+    }
+  };
 
   return (
     <div className={styles.background}>
       <PortkeyLoading loading={loading} />
-      {[StepStatus.INIT, StepStatus.LOCK, StepStatus.LOGIN].includes(step) ? (
-        <div>
-          <div className={styles.defaultWrapper}>
-            <img className={styles.logo} src={require('../../../public/bingo.png').default.src} />
-            <Button className={styles.defaultBtn} type={ButtonType.BLUE} onClick={login}>
-              <p className={styles.artWord}>PLAY NOW</p>
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <div>
-          <div className={styles.settingHeader}>
-            <div className={styles.setting__balance}>
-              <div className={styles.setting__balance__content}>
-                <div>Balance</div>
-                <div>{balanceValue} ELF</div>
-                <button
-                  onClick={() => {
-                    getBalance();
-                  }}
-                />
-              </div>
+      {![StepStatus.INIT, StepStatus.LOCK, StepStatus.LOGIN, StepStatus.END].includes(step) && (
+        <div className={styles.settingHeader}>
+          <div className={styles.setting__balance}>
+            <div className={styles.setting__balance__content}>
+              <div>Balance</div>
+              <div>{balanceValue} ELF</div>
+              <button
+                className={styles.btn}
+                onClick={() => {
+                  getBalance();
+                }}
+              />
             </div>
-            <div className={styles.setting__account}>
-              <div className={styles.setting__account__content}>
-                <div>Account</div>
-                <div>{accountAddress} ELF</div>
-                <button
-                  ref={(ref) => {
-                    copyBtnRef.current = ref;
-                  }}
-                  className={styles.setting__account__content__copy}
-                  onClick={() => {
-                    getBalance();
-                  }}
-                />
+          </div>
+          <div className={styles.setting__account}>
+            <div className={styles.setting__account__content}>
+              <div>Account</div>
+              <div style={{ width: '400px', overflow: 'hidden' }}>
+                {accountAddress.length > 30
+                  ? `${accountAddress.slice(0, 15)}...${accountAddress.slice(
+                      accountAddress.length - 10,
+                      accountAddress.length,
+                    )}`
+                  : accountAddress}
+              </div>
+              <button
+                ref={(ref) => {
+                  copyBtnRef.current = ref;
+                }}
+                className={styles.setting__account__content__copy}
+              />
+
+              <Popover
+                content={() => (
+                  <QRCode
+                    value={JSON.stringify(getQrInfo())}
+                    size={200}
+                    quietZone={0}
+                    qrStyle={'squares'}
+                    eyeRadius={{ outer: 7, inner: 4 }}
+                    ecLevel={'L'}
+                  />
+                )}>
                 <div className={styles.setting__account__content__qrcode} />
-              </div>
-            </div>
-            <button className={styles.setting__logout} onClick={logOut}>
-              Logout{' '}
-            </button>
-          </div>
-          <div className={styles.contentWrapper}>
-            <div className={styles.content__bg}>
-              {step === StepStatus.PLAY && <div>1111</div>}
-              {step === StepStatus.BINGO && <div>222</div>}
+              </Popover>
             </div>
           </div>
+          <button className={styles.setting__logout} onClick={logOut}>
+            Logout
+          </button>
         </div>
       )}
-
+      {renderSence()}
+      {/* cutDown Tip*/}
+      {step === StepStatus.CUTDOWN && renderCutDown()}
       <SignIn
         open={isLogin}
         sandboxId="portkey-ui-sandbox"
         defaultChainId={CHAIN_ID}
-        onFinish={(wallet) => {
+        isShowScan
+        onFinish={async (wallet) => {
+          if (wallet.chainId !== CHAIN_ID) {
+            const caInfo = await did.didWallet.getHolderInfoByContract({
+              caHash: wallet.caInfo.caHash,
+              chainId: CHAIN_ID,
+            });
+            wallet.caInfo = {
+              caAddress: caInfo.caAddress,
+              caHash: caInfo.caHash,
+            };
+          }
           setLoading(true);
           setIsLogin(false);
           setWallet(wallet);
-          //   walletRef.current = wallet;
-          localStorage.setItem('testWallet', JSON.stringify(wallet));
           did.save(wallet.pin, KEY_NAME);
           initContract();
         }}
