@@ -55,7 +55,13 @@ const useBingo = () => {
   const [caAddress, setCaAddress] = useState('');
   const [time, setTime] = useState(30);
 
-  const walletRef = useRef<DIDWalletInfo>();
+  const walletRef = useRef<
+    DIDWalletInfo & {
+      registered?: boolean;
+      approved?: boolean;
+    }
+  >();
+
   const chainInfoRef = useRef<ChainInfo>();
   const caContractRef = useRef<ContractBasic>();
   const multiTokenContractRef = useRef<ContractBasic>();
@@ -158,6 +164,13 @@ const useBingo = () => {
         amount: '100000000000000000000',
       },
     });
+    if (!approve.error) {
+      walletRef.current = {
+        ...wallet,
+        approved: true,
+      };
+      return true;
+    }
     console.log('approve: result', approve);
     getBalance();
     console.log('Congratulations on your successful approve');
@@ -174,6 +187,15 @@ const useBingo = () => {
       methodName: 'Register',
       args: null,
     });
+
+    // already registered or success
+    if (!registerResult.error || registerResult.error.message?.includes('already registered')) {
+      walletRef.current = {
+        ...wallet,
+        registered: true,
+      };
+      return true;
+    }
     console.log('register: result', registerResult);
     await delay();
     console.log('Congratulations on your successful registration！Please approve');
@@ -298,8 +320,13 @@ const useBingo = () => {
     }
 
     setLoading(true);
-
     try {
+      if (!wallet.registered) {
+        const registered = await register();
+        if (!registered) return Toast.show('Synchronizing on-chain account information...');
+      }
+      if (!wallet.approved) await approve();
+
       const playResult = await caContract.callSendMethod('ManagerForwardCall', wallet.walletInfo.wallet.address, {
         caHash: wallet.caInfo.caHash,
         contractAddress: bingoAddress,
@@ -311,7 +338,7 @@ const useBingo = () => {
       });
 
       console.log('Play result: ', playResult);
-      txIdRef.current = playResult.data.TransactionId || '';
+      txIdRef.current = playResult.data?.TransactionId || '';
       smallOrBigRef.current = smallOrBig;
       setLoading(false);
       setStep(StepStatus.CUTDOWN);
@@ -319,6 +346,7 @@ const useBingo = () => {
       setStep(StepStatus.BINGO);
     } catch (err) {
       console.log(err);
+    } finally {
       setLoading(false);
     }
   };
