@@ -53,7 +53,7 @@ const useBingo = () => {
 
   const [loading, setLoading] = useState(false);
   const [caAddress, setCaAddress] = useState('');
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(10);
 
   const walletRef = useRef<
     DIDWalletInfo & {
@@ -205,7 +205,7 @@ const useBingo = () => {
   // cutdown function
   const cutDown = async () => {
     await new Promise<void>((resolve) => {
-      let count = 30;
+      let count = 10;
       setTime(count);
       const timer = setInterval(() => {
         setTime(--count);
@@ -482,6 +482,7 @@ const useBingo = () => {
     time,
     setWallet,
     accountAddress,
+    chainId: chainInfoRef.current?.chainId,
     tokenContractAddress: tokenContractAddressRef.current,
   };
 };
