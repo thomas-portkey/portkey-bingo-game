@@ -52,6 +52,7 @@ const MBingoGame = () => {
     login,
     logOut,
     lock,
+    chainId,
     step,
     settingPage,
     balanceValue,
@@ -351,7 +352,7 @@ const MBingoGame = () => {
       },
       assetInfo: {
         symbol: 'ELF',
-        chainId: 'tDVV',
+        chainId: chainId,
         tokenContractAddress: tokenContractAddress,
         decimals: '8',
       },

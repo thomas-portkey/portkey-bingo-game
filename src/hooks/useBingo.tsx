@@ -4,11 +4,12 @@ import { ChainInfo } from '@portkey/services';
 import { getContractBasic, ContractBasic } from '@portkey/contracts';
 import AElf from 'aelf-sdk';
 import { Toast } from 'antd-mobile';
-import Clipboard from 'clipboard';
 
 import { useDelay } from './common';
 
 import { bingoAddress, CHAIN_ID } from '../constants/network';
+
+import useIntervalAsync from './useInterValAsync';
 
 export enum StepStatus {
   INIT,
@@ -52,7 +53,7 @@ const useBingo = () => {
 
   const [loading, setLoading] = useState(false);
   const [caAddress, setCaAddress] = useState('');
-  const [time, setTime] = useState(30);
+  const [time, setTime] = useState(10);
 
   const walletRef = useRef<DIDWalletInfo>();
   const chainInfoRef = useRef<ChainInfo>();
@@ -63,8 +64,28 @@ const useBingo = () => {
   const smallOrBigRef = useRef(false); // true: big, false: small;
   const tokenContractAddressRef = useRef('');
   const balanceInputValueRef = useRef<string>('1');
+  const requestTimeRef = useRef(0);
 
   const accountAddress = `ELF_${caAddress}_${chainInfoRef.current?.chainId}`;
+
+  useIntervalAsync(async () => {
+    const multiTokenContract = multiTokenContractRef.current;
+    const wallet = walletRef.current;
+    if (!multiTokenContract || !wallet) return;
+
+    if (Date.now() - requestTimeRef.current < 5000) {
+      return;
+    }
+
+    const result = await multiTokenContract.callViewMethod('GetBalance', {
+      symbol: 'ELF',
+      owner: wallet.caInfo.caAddress,
+    });
+
+    console.log('useIntervalAsync setBalance: result', result);
+    const balance = result.data.balance / 10 ** 8;
+    setBalanceValue(balance.toString());
+  }, 5000);
 
   /**
    *  logic function
@@ -110,6 +131,8 @@ const useBingo = () => {
       symbol: 'ELF',
       owner: wallet.caInfo.caAddress,
     });
+
+    requestTimeRef.current = Date.now();
 
     console.log('getBalance: result', result);
     const balance = result.data.balance / 10 ** 8;
@@ -160,7 +183,7 @@ const useBingo = () => {
   // cutdown function
   const cutDown = async () => {
     await new Promise<void>((resolve) => {
-      let count = 30;
+      let count = 10;
       setTime(count);
       const timer = setInterval(() => {
         setTime(--count);
@@ -173,7 +196,7 @@ const useBingo = () => {
   };
 
   const unLock = async () => {
-    const wallet = await did.load('', KEY_NAME);
+    const wallet = await did.load('ls123456', KEY_NAME);
     if (!wallet.didWallet.accountInfo.loginAccount) {
       //   setIsErrorTipShow(true);
       return;
@@ -431,6 +454,7 @@ const useBingo = () => {
     time,
     setWallet,
     accountAddress,
+    chainId: chainInfoRef.current?.chainId,
     tokenContractAddress: tokenContractAddressRef.current,
   };
 };

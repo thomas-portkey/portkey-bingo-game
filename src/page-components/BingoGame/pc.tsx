@@ -24,6 +24,7 @@ const PCBingoGame = () => {
     unLock,
     login,
     logOut,
+    chainId,
     lock,
     step,
     balanceValue,
@@ -78,12 +79,13 @@ const PCBingoGame = () => {
       },
       assetInfo: {
         symbol: 'ELF',
-        chainId: 'tDVV',
+        chainId: chainId,
         tokenContractAddress: tokenContractAddress,
         decimals: '8',
       },
       address: caAddress,
     });
+    return info;
   };
 
   const renderDefault = () => {
