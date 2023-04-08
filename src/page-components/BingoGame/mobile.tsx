@@ -347,7 +347,7 @@ const MBingoGame = () => {
       netWorkType: 'TESTNET',
       chainType: 'aelf',
       toInfo: {
-        address: caAddress,
+        address: accountAddress,
         name: '',
       },
       assetInfo: {
@@ -356,7 +356,7 @@ const MBingoGame = () => {
         tokenContractAddress: tokenContractAddress,
         decimals: '8',
       },
-      address: caAddress,
+      address: accountAddress,
     });
 
     return (

@@ -196,7 +196,7 @@ const useBingo = () => {
   };
 
   const unLock = async () => {
-    const wallet = await did.load('ls123456', KEY_NAME);
+    const wallet = await did.load('', KEY_NAME);
     if (!wallet.didWallet.accountInfo.loginAccount) {
       //   setIsErrorTipShow(true);
       return;
