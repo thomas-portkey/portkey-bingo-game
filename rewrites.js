@@ -10,7 +10,7 @@
 module.exports = [
   { source: '/api/:path*', destination: 'https://did-portkey-test.portkey.finance/api/:path*' },
   {
-    source: '/Portkey_DID/PortKeyIndexerCASchema/:path*',
+    source: '/AElfIndexer_DApp/PortKeyIndexerCASchema/:path*',
     destination: 'https://dapp-portkey-test.portkey.finance/Portkey_DID/PortKeyIndexerCASchema/:path*',
   },
 ];
