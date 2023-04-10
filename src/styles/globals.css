@@ -6,17 +6,3 @@
 .ant-modal-body {
   max-width: 100%;
 }
-
-body {
-  @media screen and (max-width: 1280px) {
-    zoom: 0.6;
-  }
-
-  @media screen and (min-width: 1280px) and (max-width: 1920px) {
-    zoom: 0.6;
-  }
-
-  @media screen and (min-width: 1920) {
-    zoom: 1;
-  }
-}
