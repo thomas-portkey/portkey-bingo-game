@@ -293,7 +293,7 @@ const PCBingoGame = () => {
             <div className={styles.setting__balance}>
               <div className={styles.setting__balance__content}>
                 <div>Balance</div>
-                <div>{balanceValue} ELF</div>
+                <div style={{ width: '158px' }}>{Number(balanceValue).toFixed(4)} ELF</div>
                 <button
                   className={styles.btn}
                   onClick={() => {
