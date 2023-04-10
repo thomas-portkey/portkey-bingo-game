@@ -35,6 +35,7 @@ export enum ButtonType {
 
 export const KEY_NAME = 'BINGO_GAME';
 const { sha256 } = AElf.utils;
+const COUNT = 3;
 
 const useBingo = () => {
   const [step, setStep] = useState(StepStatus.INIT);
@@ -205,7 +206,7 @@ const useBingo = () => {
   // cutdown function
   const cutDown = async () => {
     await new Promise<void>((resolve) => {
-      let count = 30;
+      let count = COUNT;
       setTime(count);
       const timer = setInterval(() => {
         setTime(--count);
@@ -336,6 +337,12 @@ const useBingo = () => {
           type: smallOrBig,
         },
       });
+
+      if (playResult.error || playResult.data.Error) {
+        setLoading(false);
+        Toast.show('Insufficient funds');
+        return;
+      }
 
       console.log('Play result: ', playResult);
       txIdRef.current = playResult.data?.TransactionId || '';

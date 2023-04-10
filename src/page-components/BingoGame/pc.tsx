@@ -161,7 +161,7 @@ const PCBingoGame = () => {
                     }}>
                     <span className={styles.playContent__betBtn_p}>
                       <p className={styles.artWord}>BIG</p>
-                      <p>(129 - 256)</p>
+                      <p>(128 - 255)</p>
                     </span>
                   </Button>
                   <Button
@@ -172,7 +172,7 @@ const PCBingoGame = () => {
                     }}>
                     <span className={styles.playContent__betBtn_p}>
                       <p className={styles.artWord}>SMALL</p>
-                      <p>(0 - 128)</p>
+                      <p>(0 - 127)</p>
                     </span>
                   </Button>
                 </div>
@@ -189,7 +189,7 @@ const PCBingoGame = () => {
       <div className={styles.cutDownWrapper}>
         <div className={styles.cutDown__bg} />
         <div className={styles.cutDown}>
-          <p>{time} s</p>
+          <p>{time}</p>
         </div>
         <span className={styles.cutDown__tip}>Getting on-chain data to generate random numbers...</span>
       </div>
@@ -208,7 +208,7 @@ const PCBingoGame = () => {
           background: '#FFCB9B',
         };
     return (
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         {hasFinishBet ? (
           <div className={styles.bingoContentWrapper}>
             <div className={styles.bingoLogo}>
@@ -293,7 +293,9 @@ const PCBingoGame = () => {
             <div className={styles.setting__balance}>
               <div className={styles.setting__balance__content}>
                 <div>Balance</div>
-                <div>{balanceValue} ELF</div>
+                <div style={{ width: '166px', fontSize: `${balanceValue.length > 9 ? '18px' : '24px'}` }}>
+                  {Number(balanceValue).toFixed(4)} ELF
+                </div>
                 <button
                   className={styles.btn}
                   onClick={() => {

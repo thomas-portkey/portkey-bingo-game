@@ -231,7 +231,7 @@ const MBingoGame = () => {
                 }}>
                 <span className={styles.playContent__betBtn_p}>
                   <p className={styles.artWord}>BIG</p>
-                  <p>(129 - 256)</p>
+                  <p>(128 - 255)</p>
                 </span>
               </Button>
               <Button
@@ -242,7 +242,7 @@ const MBingoGame = () => {
                 }}>
                 <span className={styles.playContent__betBtn_p}>
                   <p className={styles.artWord}>SMALL</p>
-                  <p>(0 - 128)</p>
+                  <p>(0 - 127)</p>
                 </span>
               </Button>
             </div>
@@ -275,7 +275,7 @@ const MBingoGame = () => {
       <div className={styles.cutDownWrapper}>
         <div className={styles.cutDown__bg} />
         <div className={styles.cutDown}>
-          <p>{time} s</p>
+          <p>{time}</p>
         </div>
         <span className={styles.cutDown__tip}>Getting on-chain data to generate random numbers...</span>
       </div>
@@ -394,7 +394,7 @@ const MBingoGame = () => {
           {settingPage === SettingPage.BALANCE && (
             <div className={styles.settingContent__balance}>
               <h1>Balance</h1>
-              <div className={styles.settingContent__balance__text}>{balanceValue} ELF</div>
+              <div className={styles.settingContent__balance__text}>{Number(balanceValue).toFixed(4)} ELF</div>
               <button
                 className={styles.settingContent__balance__reload}
                 onClick={async () => {

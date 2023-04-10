@@ -54,6 +54,8 @@ ConfigProvider.setGlobalConfig({
 });
 
 const BingoGame = (props: SideProps) => {
+  const isMobileBrowser = isMobile(props.uaString);
+
   useEffect(() => {
     if (process.env.NEXT_PUBLIC_APP_ENV === 'development') {
       const script = document.createElement('script');
@@ -66,9 +68,16 @@ const BingoGame = (props: SideProps) => {
         }, 0);
       };
     }
+
+    if (!isMobileBrowser) {
+      const style = document.createElement('style');
+      style.setAttribute('type', 'text/css');
+      style.textContent =
+        'body{ @media screen and (max-width: 1280px) {zoom: 0.6; }  @media screen and (min-width: 1280px) and (max-width: 1920px) {zoom: 0.6;} }  @media screen and (min-width: 1920) {zoom: 1;}';
+      document.head.appendChild(style);
+    }
   }, []);
 
-  const isMobileBrowser = isMobile(props.uaString);
   return isMobileBrowser ? <MBingoGame /> : <PCBingoGame />;
 };
 

@@ -1,6 +1,11 @@
 .bodyWrapper {
   width: 100%;
   height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+
   @media screen and (min-width: 1920px) {
     width: 1920px;
     height: 1080px;
@@ -16,6 +21,7 @@
   background-size: 100% 100%;
   display: flex;
   justify-self: center;
+  overflow: scroll;
 }
 
 .defaultWrapper {
@@ -135,7 +141,7 @@
   align-items: center;
   padding-left: 123px;
 
-  width: 495px;
+  width: 525px;
   height: 100px;
   background-image: url('../../../public/balance_pc.png');
   background-size: 100% 100%;
@@ -241,10 +247,11 @@
 }
 
 .contentWrapper {
-  /* padding: 24px 300px; */
+  /* padding-top: 2%; */
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 100px;
 }
 
 .content__bg {
@@ -353,6 +360,10 @@
 
 .playContent__betBtnGroups {
   margin-top: 41px;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .playContent__betBtn {
@@ -389,10 +400,6 @@
   line-height: 18px;
 }
 
-.playContent__betBtnGroups .playContent__betBtn:last-child {
-  margin-top: 12px;
-}
-
 .settingBtnGroups {
   margin-top: 20px;
   display: flex;
@@ -427,8 +434,8 @@
   right: 0;
   left: 0;
   bottom: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -437,8 +444,8 @@
 .cutDown__bg {
   background-image: url('../../../public/circle_ray.png');
   background-size: 100% 100%;
-  width: 140vw;
-  height: 140vw;
+  width: 200%;
+  height: 200%;
   position: absolute;
   z-index: 0;
   animation: cutDownRote 30s linear infinite;
@@ -494,11 +501,11 @@
 
 .bingoContentWrapper {
   position: relative;
-  margin-top: 158px;
   height: 671px;
   width: 1322px;
   display: flex;
-  margin-left: calc(50vw - 1322px / 2);
+  margin-top: 134px;
+  margin-bottom: 100px;
 }
 
 .bingoContent {
@@ -512,14 +519,16 @@
 .bingoContent__bg {
   margin-top: 74.5px;
   width: 1322px;
-  height: 805px;
+  height: 592px;
   background-image: url('../../../public/frame_pc_2.png');
   background-size: 100% 100%;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bingoContent__wrapper {
-  margin-top: 303px;
   margin-left: 137px;
   margin-right: 137px;
   margin-bottom: 70px;
