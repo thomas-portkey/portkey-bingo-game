@@ -161,7 +161,7 @@ const PCBingoGame = () => {
                     }}>
                     <span className={styles.playContent__betBtn_p}>
                       <p className={styles.artWord}>BIG</p>
-                      <p>(129 - 256)</p>
+                      <p>(128 - 255)</p>
                     </span>
                   </Button>
                   <Button
@@ -172,7 +172,7 @@ const PCBingoGame = () => {
                     }}>
                     <span className={styles.playContent__betBtn_p}>
                       <p className={styles.artWord}>SMALL</p>
-                      <p>(0 - 128)</p>
+                      <p>(0 - 127)</p>
                     </span>
                   </Button>
                 </div>
