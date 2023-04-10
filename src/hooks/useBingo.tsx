@@ -311,6 +311,12 @@ const useBingo = () => {
         },
       });
 
+      if (playResult.error || playResult.data.Error) {
+        setLoading(false);
+        Toast.show('Insufficient funds');
+        return;
+      }
+
       console.log('Play result: ', playResult);
       txIdRef.current = playResult.data.TransactionId || '';
       smallOrBigRef.current = smallOrBig;
