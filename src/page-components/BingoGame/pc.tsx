@@ -209,7 +209,7 @@ const PCBingoGame = () => {
         };
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {hasFinishBet || true ? (
+        {hasFinishBet ? (
           <div className={styles.bingoContentWrapper}>
             <div className={styles.bingoLogo}>
               <div style={{ fontSize: '180px' }} className={[styles.artWord].join(' ')}>
