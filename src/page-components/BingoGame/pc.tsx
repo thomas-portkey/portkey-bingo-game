@@ -208,7 +208,7 @@ const PCBingoGame = () => {
           background: '#FFCB9B',
         };
     return (
-      <div>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         {hasFinishBet ? (
           <div className={styles.bingoContentWrapper}>
             <div className={styles.bingoLogo}>
