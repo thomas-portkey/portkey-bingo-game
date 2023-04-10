@@ -189,7 +189,7 @@ const PCBingoGame = () => {
       <div className={styles.cutDownWrapper}>
         <div className={styles.cutDown__bg} />
         <div className={styles.cutDown}>
-          <p>{time} s</p>
+          <p>{time}</p>
         </div>
         <span className={styles.cutDown__tip}>Getting on-chain data to generate random numbers...</span>
       </div>
@@ -209,7 +209,7 @@ const PCBingoGame = () => {
         };
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        {hasFinishBet ? (
+        {hasFinishBet || true ? (
           <div className={styles.bingoContentWrapper}>
             <div className={styles.bingoLogo}>
               <div style={{ fontSize: '180px' }} className={[styles.artWord].join(' ')}>
@@ -293,7 +293,9 @@ const PCBingoGame = () => {
             <div className={styles.setting__balance}>
               <div className={styles.setting__balance__content}>
                 <div>Balance</div>
-                <div style={{ width: '158px' }}>{Number(balanceValue).toFixed(4)} ELF</div>
+                <div style={{ width: '166px', fontSize: `${balanceValue.length > 9 ? '18px' : '24px'}` }}>
+                  {Number(balanceValue).toFixed(4)} ELF
+                </div>
                 <button
                   className={styles.btn}
                   onClick={() => {

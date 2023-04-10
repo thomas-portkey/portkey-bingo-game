@@ -501,11 +501,11 @@
 
 .bingoContentWrapper {
   position: relative;
-  /* margin-top: 158px; */
   height: 671px;
   width: 1322px;
   display: flex;
-  /* margin-left: calc(50% - 1322px / 2); */
+  margin-top: 134px;
+  margin-bottom: 100px;
 }
 
 .bingoContent {
